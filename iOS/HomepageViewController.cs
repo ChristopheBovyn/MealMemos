@@ -7,10 +7,11 @@ using Xamarin.Essentials;
 using Masonry;
 using System.Diagnostics;
 using MealMemos.Models;
+using System.Linq;
 
 namespace MealMemos.iOS
 {
-    public partial class HomepageViewController : UIViewController, IUIPageViewControllerDataSource
+    public partial class HomepageViewController : UIViewController, IUIPageViewControllerDataSource, IUIPageViewControllerDelegate
     {
         private Team team;
 
@@ -18,12 +19,13 @@ namespace MealMemos.iOS
 
         private List<string> bgcolors;
 
+        private UIPageViewController pageViewController;
         private UIPageControl pageControl;
+
         public HomepageViewController(IntPtr handle) : base(handle)
         {
-
             this.team = new Team();
-            this.bgcolors = setColors();
+            this.bgcolors = SetColors();
         }
 
         public override void ViewDidLoad()
@@ -34,14 +36,17 @@ namespace MealMemos.iOS
 
         private void configurePageViewController()
         {
-            var pageViewController = (CustomPageViewController)Storyboard?.InstantiateViewController(identifier: "CustomPageViewController");
-            pageViewController.DataSource = this;
-            AddChildViewController(pageViewController);
-            pageViewController.View.TranslatesAutoresizingMaskIntoConstraints = false;
-            pageViewController.DidMoveToParentViewController(this);
-            this.contentView.AddSubview(pageViewController.View);
+            this.pageViewController = (CustomPageViewController)Storyboard?.InstantiateViewController(identifier: "CustomPageViewController");
+            this.pageViewController.DataSource = this;
+            this.AddChildViewController(this.pageViewController);
+            this.pageViewController.View.TranslatesAutoresizingMaskIntoConstraints = false;
+            this.pageViewController.DidMoveToParentViewController(this);
+            this.contentView.AddSubview(this.pageViewController.View);
 
-            pageViewController.View.MakeConstraints(make => {
+            this.pageViewController.DidFinishAnimating += this.PageViewControllerDidFinishAnimating;
+
+            this.pageViewController.View.MakeConstraints(make =>
+            {
                 make.Width.EqualTo(this.contentView);
                 make.Height.EqualTo(this.contentView);
                 make.Center.EqualTo(this.contentView);
@@ -63,14 +68,26 @@ namespace MealMemos.iOS
                 make.CenterX.EqualTo(this.contentView);
             });
 
-            var startingViewController = memberViewControllerAtIndex(currentMemberIndex);
+            var startingViewController = MemberViewControllerAtIndex(currentMemberIndex);
             List<MemberViewController> allMembers = new List<MemberViewController>();
             allMembers.Add(startingViewController);
             var list = allMembers.ToArray();
-            pageViewController.SetViewControllers(list, UIPageViewControllerNavigationDirection.Forward, false, null);
+            this.pageViewController.SetViewControllers(list, UIPageViewControllerNavigationDirection.Forward, false, null);
         }
 
-        private MemberViewController memberViewControllerAtIndex(int index)
+        private void PageViewControllerDidFinishAnimating(object sender, UIPageViewFinishedAnimationEventArgs e)
+        {
+            if (e.Finished && e.Completed)
+            {
+                // Get children of pageViewController
+                // Get the current displayed
+                // Cast as MemberViewController
+                // Get index
+                this.pageControl.CurrentPage = (this.pageViewController.ViewControllers?.FirstOrDefault() as MemberViewController).index;
+            }
+        }
+
+        private MemberViewController MemberViewControllerAtIndex(int index)
         {
             if (index >= team.MemberCount || team.MemberCount == 0)
             {
@@ -94,10 +111,8 @@ namespace MealMemos.iOS
             {
                 return null;
             }
-
-            this.pageControl.CurrentPage = index - 1;
-            Debug.WriteLine("Remove");
-            return this.memberViewControllerAtIndex(index);
+            index--;
+            return this.MemberViewControllerAtIndex(index);
         }
 
         public UIViewController GetNextViewController(UIPageViewController pageViewController, UIViewController referenceViewController)
@@ -108,13 +123,11 @@ namespace MealMemos.iOS
             {
                 return null;
             }
-     
-            this.pageControl.CurrentPage = index+1;
-            Debug.WriteLine("Add");
-            return this.memberViewControllerAtIndex(index);
+            index++;
+            return this.MemberViewControllerAtIndex(index);
         }
 
-        private List<string> setColors()
+        private List<string> SetColors()
         {
             List<string> colors = new List<string>();
             colors.Add(Models.Color.Blue);

@@ -122,7 +122,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\.DS_Store" />
+    <ProjectReference Include="..\MealMemos.csproj">
+      <Project>{B99D6B78-4D90-4FB9-9A4F-84D5DAA58091}</Project>
+      <Name>MealMemos</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MealMemos.csproj">

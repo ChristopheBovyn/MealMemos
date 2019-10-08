@@ -3,16 +3,19 @@
 using System;
 using MealMemos.Models;
 using Foundation;
+using MealMemos.Models;
 using UIKit;
 
 namespace MealMemos.iOS
 {
-	public partial class CustomPageViewController : UIPageViewController
-	{
+    public partial class CustomPageViewController : UIPageViewController
+    {
+
         public Team team;
-        public CustomPageViewController (IntPtr handle) : base (handle)
-		{
-            
-		}
-	}
+
+        public CustomPageViewController(IntPtr handle) : base(handle)
+        {
+
+        }
+    }
 }
