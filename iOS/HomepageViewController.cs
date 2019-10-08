@@ -6,6 +6,7 @@ using UIKit;
 using Xamarin.Essentials;
 using Masonry;
 using System.Diagnostics;
+using MealMemos.Models;
 
 namespace MealMemos.iOS
 {

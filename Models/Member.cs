@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MealMemos
+namespace MealMemos.Models
 {
     public class Member
     {
