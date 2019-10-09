@@ -12,9 +12,7 @@ namespace MealMemos.Droid
         private static string BACKGROUND_COLOR = "background_color";
         public MemberFragment()
         {
-
         }
-
 
         public static MemberFragment newInstance(String firstname, string backgroundColor)
         {
@@ -24,8 +22,6 @@ namespace MealMemos.Droid
             args.PutString(MEMBER_FIRSTNAME,firstname);
             memberFragment.Arguments = args;
             return memberFragment;
-
-
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

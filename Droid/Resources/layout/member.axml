@@ -1,17 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@android:id/content">
-    <TextView
-        android:id="@+id/member_firstname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:id="@android:id/content">
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		<TextView
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:text="Firstname : "
+			android:labelFor="@id/member_firstname"
+			android:textSize="40px"
             android:textAppearance="@android:style/TextAppearance.Large"
-            android:textSize="50px"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="Question goes here" />
-    </RelativeLayout>
+            android:layout_marginLeft="10dp"/>
+		<TextView
+			android:id="@+id/member_firstname"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="@android:style/TextAppearance.Large"
+			android:textSize="40px"
+			android:text="Firstname goes here"
+			android:layout_marginLeft="110dp"/>
+	</RelativeLayout>
+
+	<Button
+		android:layout_width="250dp"
+		android:layout_height="50dp"
+		android:layout_marginRight="10dp"
+		android:layout_alignParentEnd="true"
+		android:layout_alignParentBottom="true"
+		android:text="Add"/>
+</RelativeLayout>

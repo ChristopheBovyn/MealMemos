@@ -1,9 +1,7 @@
 ﻿using Android.Support.V4.App;
-using Xamarin.Essentials;
-using MealMemos.Models;
 using System.Collections.Generic;
 using Java.Lang;
-using System.Linq;
+using MealMemos.Models;
 
 namespace MealMemos.Droid
 {
@@ -12,7 +10,7 @@ namespace MealMemos.Droid
         public Team team;
 
         private List<string> backgroundColors;
-        public TeamAdapter(Android.Support.V4.App.FragmentManager fm, Team team, List<string> backgroundColors) : base(fm)
+        public TeamAdapter(FragmentManager fm, Team team, List<string> backgroundColors) : base(fm)
         {
             this.team = team;
             this.backgroundColors = backgroundColors;
@@ -23,7 +21,7 @@ namespace MealMemos.Droid
             get { return this.team.MemberCount; }
         }
 
-        public override Android.Support.V4.App.Fragment GetItem(int position)
+        public override Fragment GetItem(int position)
         {
             string memberFName = "";
             string color = "";
@@ -35,13 +33,12 @@ namespace MealMemos.Droid
             {
                 color = this.backgroundColors[position];
             }
-            return (Android.Support.V4.App.Fragment)
-               MemberFragment.newInstance(memberFName, color);
+            return MemberFragment.newInstance(memberFName, color);
         }
 
-        public override Java.Lang.ICharSequence GetPageTitleFormatted(int position)
+        public override ICharSequence GetPageTitleFormatted(int position)
         {
-            return new Java.Lang.String("Member "+(position+1));
+            return new String("Member "+(position+1));
         }
     }
 }

@@ -11,14 +11,11 @@ using System.Linq;
 
 namespace MealMemos.iOS
 {
-    public partial class HomepageViewController : UIViewController, IUIPageViewControllerDataSource, IUIPageViewControllerDelegate
+    public partial class HomepageViewController : UIViewController, IUIPageViewControllerDataSource
     {
         private Team team;
-
         private int currentMemberIndex = 0;
-
         private List<string> bgcolors;
-
         private UIPageViewController pageViewController;
         private UIPageControl pageControl;
 
@@ -69,10 +66,11 @@ namespace MealMemos.iOS
             });
 
             var startingViewController = MemberViewControllerAtIndex(currentMemberIndex);
-            List<MemberViewController> allMembers = new List<MemberViewController>();
-            allMembers.Add(startingViewController);
-            var list = allMembers.ToArray();
-            this.pageViewController.SetViewControllers(list, UIPageViewControllerNavigationDirection.Forward, false, null);
+            List<MemberViewController> allMembers = new List<MemberViewController>
+            {
+                startingViewController
+            };
+            this.pageViewController.SetViewControllers(allMembers.ToArray(), UIPageViewControllerNavigationDirection.Forward, false, null);
         }
 
         private void PageViewControllerDidFinishAnimating(object sender, UIPageViewFinishedAnimationEventArgs e)
@@ -129,12 +127,14 @@ namespace MealMemos.iOS
 
         private List<string> SetColors()
         {
-            List<string> colors = new List<string>();
-            colors.Add(Models.Color.Blue);
-            colors.Add(Models.Color.Gray);
-            colors.Add(Models.Color.Green);
-            colors.Add(Models.Color.Yellow);
-            colors.Add(Models.Color.Magenta);
+            List<string> colors = new List<string>
+            {
+                Color.Blue,
+                Color.Gray,
+                Color.Green,
+                Color.Yellow,
+                Color.Magenta
+            };
             return colors;
         }
     }

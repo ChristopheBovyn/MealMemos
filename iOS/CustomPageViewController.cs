@@ -2,8 +2,6 @@
 
 using System;
 using MealMemos.Models;
-using Foundation;
-using MealMemos.Models;
 using UIKit;
 
 namespace MealMemos.iOS

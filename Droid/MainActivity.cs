@@ -5,6 +5,7 @@ using Android.Support.V4.App;
 using System.Collections.Generic;
 using Android.Runtime;
 using MealMemos.Models;
+using Java.Lang;
 
 namespace MealMemos.Droid
 {

@@ -97,7 +97,6 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
@@ -120,12 +119,10 @@
     <Compile Include="HomepageViewController.designer.cs">
       <DependentUpon>HomepageViewController.cs</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MealMemos.csproj">
-      <Project>{B99D6B78-4D90-4FB9-9A4F-84D5DAA58091}</Project>
-      <Name>MealMemos</Name>
-    </ProjectReference>
+    <Compile Include="CustomTabBarViewController.cs" />
+    <Compile Include="CustomTabBarViewController.designer.cs">
+      <DependentUpon>CustomTabBarViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MealMemos.csproj">

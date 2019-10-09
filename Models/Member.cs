@@ -6,10 +6,17 @@ namespace MealMemos.Models
     public class Member
     {
         public string Firstname { get; }
+        public string ColorTheme { get; }
 
         public Member(string firstname)
         {
             Firstname = firstname;
+        }
+
+        public Member(string firstname,String color)
+        {
+            Firstname = firstname;
+            ColorTheme = color;
         }
     }
 
@@ -19,12 +26,12 @@ namespace MealMemos.Models
 
         static Member[] defaultMembers =
         {
-            new Member("Jordy"),
-            new Member("Adrien"),
-            new Member("Benjamin"),
-            new Member("Jerome"),
-            new Member("Sofiane"),
-            new Member("Christophe")
+            new Member("Jordy",Color.Blue),
+            new Member("Adrien",Color.Gray),
+            new Member("Benjamin",Color.Yellow),
+            new Member("Jerome",Color.Red),
+            new Member("Sofiane",Color.Magenta),
+            new Member("Christophe",Color.Purple)
         };
 
         public Team()
