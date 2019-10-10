@@ -8,12 +8,9 @@ namespace MealMemos.Droid
     public class TeamAdapter : FragmentPagerAdapter
     {
         public Team team;
-
-        private List<string> backgroundColors;
         public TeamAdapter(FragmentManager fm, Team team, List<string> backgroundColors) : base(fm)
         {
             this.team = team;
-            this.backgroundColors = backgroundColors;
         }
 
         public override int Count
@@ -23,17 +20,11 @@ namespace MealMemos.Droid
 
         public override Fragment GetItem(int position)
         {
-            string memberFName = "";
-            string color = "";
             if(position  < team.MemberCount)
             {
-                memberFName = this.team[position].Firstname;
+                return MemberFragment.NewInstance(this.team[position]);
             }
-            if(position < this.backgroundColors.Count)
-            {
-                color = this.backgroundColors[position];
-            }
-            return MemberFragment.newInstance(memberFName, color);
+            return null;
         }
 
         public override ICharSequence GetPageTitleFormatted(int position)

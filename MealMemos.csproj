@@ -32,10 +32,12 @@
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Interfaces\IMemberPopup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

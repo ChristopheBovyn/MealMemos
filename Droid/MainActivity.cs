@@ -7,6 +7,11 @@ using Android.Runtime;
 using MealMemos.Models;
 using Android.Support.Design.Widget;
 using Android.Support.V7.App;
+using System;
+using Android.Widget;
+using MealMemos.Interfaces;
+using GalaSoft.MvvmLight.Ioc;
+using MealMemos.Droid.Impl;
 
 namespace MealMemos.Droid
 {
@@ -20,9 +25,18 @@ namespace MealMemos.Droid
             SetContentView(Resource.Layout.Main);
             ViewPager viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
             Team team = new Team();
-            var backgroundsColor = SetColorList();
-            TeamAdapter adapter = new TeamAdapter(SupportFragmentManager, team,backgroundsColor);
-            viewPager.Adapter = adapter;
+            //TeamAdapter adapter = new TeamAdapter(SupportFragmentManager, team,backgroundsColor);
+            TabsAdapter tabsAdapter = new TabsAdapter(this, SupportFragmentManager);
+            var tabbar = FindViewById<TabLayout>(Resource.Id.bottomBar);
+            tabbar.SetupWithViewPager(viewPager);
+            viewPager.Adapter = tabsAdapter;
+            viewPager.OffscreenPageLimit = 2;
+            viewPager.PageSelected += (sender, args) =>
+            {
+                var fragment = tabsAdapter.InstantiateItem(viewPager, args.Position);
+            };
+            this.registerServices();
+           
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -32,17 +46,10 @@ namespace MealMemos.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        private List<string> SetColorList()
+        private void registerServices()
         {
-            List<string> colors = new List<string>
-            {
-                Color.Blue,
-                Color.Gray,
-                Color.Green,
-                Color.Yellow,
-                Color.Magenta
-            };
-            return colors;
+            //Utilisation de la factory pas top ?
+            SimpleIoc.Default.Register<IMemberPopup>(() => { return new AndroidMemberPopup(this); });
         }
     }
 }

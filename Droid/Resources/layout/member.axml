@@ -10,7 +10,25 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:textAppearance="@android:style/TextAppearance.Large"
-		android:layout_centerInParent="true"
+		android:layout_alignParentTop="true"
 		android:textSize="50px"
-		android:text="Firstname goes here"/>
+        android:layout_marginLeft="25dp"
+        android:text="Firstname goes here"/>
+    <TableLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:id="@+id/memberInfos"/>
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/addElement"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+        android:theme="@style/Theme.AppCompat"
+		android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="65dp"
+        android:backgroundTint="@android:color/holo_blue_bright"
+        android:src="@drawable/baseline_add_black_18dp"/>
 </RelativeLayout>
