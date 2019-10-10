@@ -11,6 +11,7 @@ using MealMemos.Models;
 using Xamarin.Essentials;
 using MealMemos.Extensions;
 using System.Threading.Tasks;
+using AsyncAwaitBestPractices;
 
 namespace MealMemos.Droid
 {
@@ -49,7 +50,12 @@ namespace MealMemos.Droid
         }
 
         // Do not use async void
-        private async void AddButtonClick(object sender, EventArgs e)
+        private void AddButtonClick(object sender, EventArgs e)
+        {
+            this.OpenPopup().SafeFireAndForget();
+        }
+
+        private async Task OpenPopup()
         {
             var result = await SimpleIoc.Default.GetInstance<IMemberPopup>().OpenPopupWithResult();
             if (!result.IsNullOrEmpty())

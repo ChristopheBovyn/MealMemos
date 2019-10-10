@@ -170,6 +170,9 @@
     <Reference Include="GalaSoft.MvvmLight.Platform">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\monoandroid1\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="AsyncAwaitBestPractices">
+      <HintPath>..\packages\AsyncAwaitBestPractices.3.1.0\lib\netstandard1.0\AsyncAwaitBestPractices.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
