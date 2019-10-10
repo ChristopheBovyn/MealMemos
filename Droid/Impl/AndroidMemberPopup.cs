@@ -11,6 +11,7 @@ namespace MealMemos.Droid.Impl
     public class AndroidMemberPopup : IMemberPopup
     {
         private Context context;
+        private TaskCompletionSource<string> taskCompletionSource;
 
         public AndroidMemberPopup(Context context)
         {
@@ -22,8 +23,10 @@ namespace MealMemos.Droid.Impl
 
         }
 
-        public void OpenPopupWithResult()
+        public Task<string> OpenPopupWithResult()
         {
+            taskCompletionSource = new TaskCompletionSource<string>();
+
             string value = "";
             LayoutInflater layout = LayoutInflater.From(this.context);
             View view = layout.Inflate(Resource.Layout.memberPopup, null);
@@ -32,10 +35,17 @@ namespace MealMemos.Droid.Impl
             AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
             builder.SetView(view);
             builder.SetCancelable(true);
-            builder.SetPositiveButton("Add information", (sender, args) => { value = editext.Text; });
+
+            builder.SetPositiveButton("Add information", (sender, args) =>
+            {
+                value = editext.Text;
+                taskCompletionSource.SetResult(value);
+            });
 
             AlertDialog dialog = builder.Create();
             dialog.Show();
+
+            return taskCompletionSource.Task;
         }
     }
 }

@@ -6,6 +6,6 @@ namespace MealMemos.Interfaces
     public interface IMemberPopup
     {
         void OpenPopup();
-        void OpenPopupWithResult();
+        Task<string> OpenPopupWithResult();
     }
 }
