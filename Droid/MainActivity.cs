@@ -5,7 +5,8 @@ using Android.Support.V4.App;
 using System.Collections.Generic;
 using Android.Runtime;
 using MealMemos.Models;
-using Java.Lang;
+using Android.Support.Design.Widget;
+using Android.Support.V7.App;
 
 namespace MealMemos.Droid
 {
@@ -19,7 +20,7 @@ namespace MealMemos.Droid
             SetContentView(Resource.Layout.Main);
             ViewPager viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
             Team team = new Team();
-            var backgroundsColor = setColorList();
+            var backgroundsColor = SetColorList();
             TeamAdapter adapter = new TeamAdapter(SupportFragmentManager, team,backgroundsColor);
             viewPager.Adapter = adapter;
         }
@@ -31,14 +32,16 @@ namespace MealMemos.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        private List<string> setColorList()
+        private List<string> SetColorList()
         {
-            List<string> colors = new List<string>();
-            colors.Add(Color.Blue);
-            colors.Add(Color.Gray);
-            colors.Add(Color.Green);
-            colors.Add(Color.Yellow);
-            colors.Add(Color.Magenta);
+            List<string> colors = new List<string>
+            {
+                Color.Blue,
+                Color.Gray,
+                Color.Green,
+                Color.Yellow,
+                Color.Magenta
+            };
             return colors;
         }
     }

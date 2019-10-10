@@ -2,4 +2,8 @@
 <resources>
     <string name="hello">Hello World, Click Me!</string>
     <string name="app_name">MealMemos.Droid</string>
+    <string name="bottom_navigation_item1">Member 1</string>
+    <string name="bottom_navigation_item2">Member 2</string>
+    <string name="bottom_navigation_item3">Member 3</string>
+    <string name="bottom_navigation_lastItem">Rand Member</string>
 </resources>
