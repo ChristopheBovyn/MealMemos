@@ -49,7 +49,6 @@ namespace MealMemos.Droid
             return view;
         }
 
-        // Do not use async void
         private void AddButtonClick(object sender, EventArgs e)
         {
             this.OpenPopup().SafeFireAndForget();

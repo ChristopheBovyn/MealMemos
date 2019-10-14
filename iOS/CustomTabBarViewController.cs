@@ -3,6 +3,9 @@
 using System;
 using System.Collections.Generic;
 using Foundation;
+using GalaSoft.MvvmLight.Ioc;
+using GPS.iOS;
+using MealMemos.Interfaces;
 using MealMemos.Models;
 using UIKit;
 using Xamarin.Essentials;
@@ -20,7 +23,8 @@ namespace MealMemos.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            initMemberViewControllers();
+            this.registerServices();
+            this.initMemberViewControllers();
             this.ViewControllers = this.memberViewControllers.ToArray();
         }
 
@@ -36,6 +40,11 @@ namespace MealMemos.iOS
                 memberViewController.SetFirstNameLabel(team[i].Firstname);
                 this.memberViewControllers.Add(memberViewController);
             }
+        }
+
+        private void registerServices()
+        {
+            SimpleIoc.Default.Register<IMemberPopup>(() => { return new IosMemberPopup(this); });
         }
     }
 }

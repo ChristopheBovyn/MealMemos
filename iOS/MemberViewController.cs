@@ -3,18 +3,21 @@
 using System;
 using UIKit;
 using MealMemos.Extensions;
+using CoreGraphics;
+using GPS.iOS;
+using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Ioc;
+using MealMemos.Interfaces;
+using AsyncAwaitBestPractices;
 
 namespace MealMemos.iOS
 {
-	public partial class MemberViewController : UIViewController
-	{
+    public partial class MemberViewController : UIViewController
+    {
         public string firstnameText;
         public int index;
-        public MemberViewController (IntPtr handle) : base (handle)
-		{
-		}
 
-        public MemberViewController()
+        public MemberViewController(IntPtr handle) : base(handle)
         {
         }
 
@@ -28,10 +31,43 @@ namespace MealMemos.iOS
         {
             base.ViewDidLoad();
 
-            if(this.firstnameText.IsNullOrEmpty())
+            if (this.firstnameText.IsNullOrEmpty())
             {
                 this.firstnameLabel.Text = this.firstnameText;
             }
+            this.addInformation.Layer.CornerRadius = this.addInformation.Frame.Width / 2;
+            this.addInformation.Layer.BorderColor = UIColor.Black.CGColor;
+            this.addInformation.Layer.BorderWidth = 3;
+            this.addInformation.TouchUpInside += this.AddInformationAction;
+
+        }
+
+        private void AddInformationAction(object sender, EventArgs e)
+        {
+            this.OpenPopup().SafeFireAndForget();
+        }
+
+        private async Task OpenPopup()
+        {
+            var result = await SimpleIoc.Default.GetInstance<IMemberPopup>().OpenPopupWithResult();
+            if (!result.IsNullOrEmpty())
+            {
+                this.SetInfo(result);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("MemberViewController : OpenPopup() : result is null");
+            }
+        }
+
+        private void SetInfo(string informationValue)
+        {
+            var infoTextView = new UILabel
+            {
+                Text = informationValue
+            };
+            //this.StackView.TranslatesAutoresizingMaskIntoConstraints = false;
+            this.View.AddSubview(infoTextView);
         }
     }
 }

@@ -8,6 +8,9 @@ using Masonry;
 using System.Diagnostics;
 using MealMemos.Models;
 using System.Linq;
+using GalaSoft.MvvmLight.Ioc;
+using MealMemos.Interfaces;
+using GPS.iOS;
 
 namespace MealMemos.iOS
 {
@@ -27,8 +30,8 @@ namespace MealMemos.iOS
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
-            configurePageViewController();
+            this.configurePageViewController();
+            this.registerServices();
         }
 
         private void configurePageViewController()
@@ -136,6 +139,11 @@ namespace MealMemos.iOS
                 Color.Magenta
             };
             return colors;
+        }
+
+        private void registerServices()
+        {
+            SimpleIoc.Default.Register<IMemberPopup>(() => { return new IosMemberPopup(this.MemberViewControllerAtIndex(this.currentMemberIndex)); });
         }
     }
 }
