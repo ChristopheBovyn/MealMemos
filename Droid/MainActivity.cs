@@ -25,8 +25,7 @@ namespace MealMemos.Droid
             SetContentView(Resource.Layout.Main);
             ViewPager viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
             Team team = new Team();
-            //TeamAdapter adapter = new TeamAdapter(SupportFragmentManager, team,backgroundsColor);
-            TabsAdapter tabsAdapter = new TabsAdapter(this, SupportFragmentManager);
+            TabsAdapter tabsAdapter = new TabsAdapter(SupportFragmentManager);
             var tabbar = FindViewById<TabLayout>(Resource.Id.bottomBar);
             tabbar.SetupWithViewPager(viewPager);
             viewPager.Adapter = tabsAdapter;
@@ -48,7 +47,6 @@ namespace MealMemos.Droid
 
         private void registerServices()
         {
-            //Utilisation de la factory pas top ?
             SimpleIoc.Default.Register<IMemberPopup>(() => { return new AndroidMemberPopup(this); });
         }
     }

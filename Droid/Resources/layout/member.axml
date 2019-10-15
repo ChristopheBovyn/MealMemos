@@ -14,7 +14,7 @@
 		android:textSize="50px"
         android:layout_marginLeft="25dp"
         android:text="Firstname goes here"/>
-    <TableLayout
+    <android.support.v7.widget.RecyclerView
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

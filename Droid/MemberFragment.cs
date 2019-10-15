@@ -12,6 +12,9 @@ using Xamarin.Essentials;
 using MealMemos.Extensions;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
+using Android.Support.V7.Widget;
+using Org.Xml.Sax.Helpers;
+using System.Collections.Generic;
 
 namespace MealMemos.Droid
 {
@@ -21,7 +24,9 @@ namespace MealMemos.Droid
         private static string BACKGROUND_COLOR = "background_color";
 
         private TextView firstnameTextView;
-        private TableLayout stack;
+        private RecyclerView recyclerView;
+
+        private InformationAdapter informationAdapter;
 
         public static MemberFragment NewInstance(Member member)
         {
@@ -38,7 +43,10 @@ namespace MealMemos.Droid
             string firstname = Arguments.GetString(MEMBER_FIRSTNAME, "");
             string bgcolor = Arguments.GetString(BACKGROUND_COLOR, "#000000");
             View view = inflater.Inflate(Resource.Layout.member, container, false);
-            this.stack = view.FindViewById<TableLayout>(Resource.Id.memberInfos);
+            this.recyclerView = view.FindViewById<RecyclerView>(Resource.Id.memberInfos);
+            this.recyclerView.SetLayoutManager(new LinearLayoutManager(Application.Context));
+            this.informationAdapter = new InformationAdapter(new List<string>());
+            this.recyclerView.SetAdapter(informationAdapter);
 
             this.firstnameTextView = (TextView)view.FindViewById(Resource.Id.member_firstname);
             this.firstnameTextView.Text = firstname;
@@ -69,11 +77,7 @@ namespace MealMemos.Droid
 
         private void SetInfo(string info)
         {
-            var infoTextView = new TextView(Application.Context)
-            {
-                Text = info
-            };
-            this.stack.AddView(infoTextView);
+            this.informationAdapter.addInformation(info);
         }
     }
 }

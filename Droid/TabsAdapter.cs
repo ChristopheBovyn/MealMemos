@@ -1,5 +1,4 @@
-﻿using System;
-using Android.Content;
+﻿using Android.Content;
 using Android.Support.V4.App;
 using Java.Lang;
 using MealMemos.Models;
@@ -10,7 +9,7 @@ namespace MealMemos.Droid
     {
         Team team;
 
-        public TabsAdapter(Context context, Android.Support.V4.App.FragmentManager fm) : base(fm)
+        public TabsAdapter(FragmentManager fm) : base(fm)
         {
             this.team = new Team();
         }
@@ -21,7 +20,7 @@ namespace MealMemos.Droid
             return MemberFragment.NewInstance(team[position]);
         }
 
-        public override Java.Lang.ICharSequence GetPageTitleFormatted(int position) =>
-                            new Java.Lang.String("Member "+(position+1));
+        public override ICharSequence GetPageTitleFormatted(int position) =>
+                            new String("Member "+(position+1));
     }
 }
