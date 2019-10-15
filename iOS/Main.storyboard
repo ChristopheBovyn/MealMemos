@@ -62,12 +62,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5Dr-mr-tQI">
-                                <rect key="frame" x="30" y="124" width="354" height="728"/>
-                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n14-eH-He3">
-                                <rect key="frame" x="289" y="742" width="60" height="60"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n14-eH-He3">
+                                <rect key="frame" x="334" y="745" width="60" height="60"/>
                                 <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Pm1-A5-Jkt"/>
@@ -77,28 +73,33 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="plus" catalog="system"/>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DUW-U9-r1e">
+                                <rect key="frame" x="20" y="149" width="374" height="564"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Wh6-iE-8qH" firstAttribute="top" secondItem="LSX-zl-fWw" secondAttribute="bottom" constant="40" id="4nn-Fy-NLY"/>
-                            <constraint firstItem="YUF-G7-38U" firstAttribute="top" secondItem="5Dr-mr-tQI" secondAttribute="bottom" constant="10" id="8up-yr-G4J"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="5Dr-mr-tQI" secondAttribute="trailing" constant="10" id="B04-Ly-5TD"/>
-                            <constraint firstItem="5Dr-mr-tQI" firstAttribute="leading" secondItem="Xe3-6N-x2n" secondAttribute="leadingMargin" constant="10" id="VKj-kD-fd4"/>
                             <constraint firstItem="YUF-G7-38U" firstAttribute="top" secondItem="n14-eH-He3" secondAttribute="bottom" constant="60" id="b4S-4h-hFv"/>
-                            <constraint firstItem="5Dr-mr-tQI" firstAttribute="top" secondItem="Wh6-iE-8qH" secondAttribute="bottom" constant="10" id="e7h-bz-BTF"/>
+                            <constraint firstItem="DUW-U9-r1e" firstAttribute="leading" secondItem="Wh6-iE-8qH" secondAttribute="leading" id="dAw-pJ-8IE"/>
+                            <constraint firstItem="n14-eH-He3" firstAttribute="top" secondItem="DUW-U9-r1e" secondAttribute="bottom" constant="32" id="hvl-YW-S9s"/>
                             <constraint firstItem="Wh6-iE-8qH" firstAttribute="leading" secondItem="Xe3-6N-x2n" secondAttribute="leading" constant="20" id="jGv-4k-uaI"/>
+                            <constraint firstItem="DUW-U9-r1e" firstAttribute="trailing" secondItem="n14-eH-He3" secondAttribute="trailing" id="pr3-LW-icG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="n14-eH-He3" secondAttribute="trailing" constant="45" id="qbZ-6f-kly"/>
+                            <constraint firstItem="DUW-U9-r1e" firstAttribute="top" secondItem="Wh6-iE-8qH" secondAttribute="bottom" constant="35" id="riW-9O-9a2"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="StackView" destination="5Dr-mr-tQI" id="KpI-QI-TqL"/>
+                        <outlet property="TableView" destination="DUW-U9-r1e" id="mrg-CM-zxo"/>
                         <outlet property="addInformation" destination="n14-eH-He3" id="mww-v0-Xgy"/>
                         <outlet property="firstnameLabel" destination="Wh6-iE-8qH" id="4U8-iu-DqM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8d3-GP-Qhy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="428.9855" y="-234.375"/>
+            <point key="canvasLocation" x="427.536231884058" y="-234.375"/>
         </scene>
         <!--Custom Tab Bar View Controller-->
         <scene sceneID="KKt-ZR-Gju">

@@ -140,6 +140,7 @@
       <DependentUpon>CustomTabBarViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Impl\IosMemberPopup.cs" />
+    <Compile Include="TableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MealMemos.csproj">

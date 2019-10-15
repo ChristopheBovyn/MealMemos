@@ -19,7 +19,7 @@ namespace MealMemos.iOS
 		UIKit.UILabel firstnameLabel { get; set; }
 
 		[Outlet]
-		UIKit.UIStackView StackView { get; set; }
+		UIKit.UITableView TableView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -33,9 +33,9 @@ namespace MealMemos.iOS
 				firstnameLabel = null;
 			}
 
-			if (StackView != null) {
-				StackView.Dispose ();
-				StackView = null;
+			if (TableView != null) {
+				TableView.Dispose ();
+				TableView = null;
 			}
 		}
 	}
