@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using MealMemos.Interfaces;
 using AsyncAwaitBestPractices;
+using Masonry;
 
 namespace MealMemos.iOS
 {
@@ -35,6 +36,7 @@ namespace MealMemos.iOS
             {
                 this.firstnameLabel.Text = this.firstnameText;
             }
+            this.StackView.TranslatesAutoresizingMaskIntoConstraints = false;
             this.addInformation.Layer.CornerRadius = this.addInformation.Frame.Width / 2;
             this.addInformation.Layer.BorderColor = UIColor.Black.CGColor;
             this.addInformation.Layer.BorderWidth = 3;
@@ -46,7 +48,7 @@ namespace MealMemos.iOS
         {
             this.OpenPopup().SafeFireAndForget();
         }
-
+         
         private async Task OpenPopup()
         {
             var result = await SimpleIoc.Default.GetInstance<IMemberPopup>().OpenPopupWithResult();
@@ -66,8 +68,7 @@ namespace MealMemos.iOS
             {
                 Text = informationValue
             };
-            //this.StackView.TranslatesAutoresizingMaskIntoConstraints = false;
-            this.View.AddSubview(infoTextView);
+            this.StackView.AddArrangedSubview(infoTextView);
         }
     }
 }

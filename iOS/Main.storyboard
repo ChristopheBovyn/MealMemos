@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="8PJ-b3-Bsj">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3qz-dc-Sdi" misplaced="YES">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3qz-dc-Sdi">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
@@ -52,7 +52,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wh6-iE-8qH" misplaced="YES">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wh6-iE-8qH">
                                 <rect key="frame" x="20" y="84" width="200" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="1rh-bM-sRb"/>
@@ -62,18 +62,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5Dr-mr-tQI" misplaced="YES">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5Dr-mr-tQI">
                                 <rect key="frame" x="30" y="124" width="354" height="728"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iYS-lO-99F">
-                                        <rect key="frame" x="0.0" y="0.0" width="354" height="728"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n14-eH-He3" misplaced="YES">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n14-eH-He3">
                                 <rect key="frame" x="289" y="742" width="60" height="60"/>
                                 <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -88,13 +81,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Wh6-iE-8qH" firstAttribute="top" secondItem="LSX-zl-fWw" secondAttribute="bottom" constant="40" id="4nn-Fy-NLY"/>
+                            <constraint firstItem="YUF-G7-38U" firstAttribute="top" secondItem="5Dr-mr-tQI" secondAttribute="bottom" constant="10" id="8up-yr-G4J"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5Dr-mr-tQI" secondAttribute="trailing" constant="10" id="B04-Ly-5TD"/>
                             <constraint firstItem="5Dr-mr-tQI" firstAttribute="leading" secondItem="Xe3-6N-x2n" secondAttribute="leadingMargin" constant="10" id="VKj-kD-fd4"/>
                             <constraint firstItem="YUF-G7-38U" firstAttribute="top" secondItem="n14-eH-He3" secondAttribute="bottom" constant="60" id="b4S-4h-hFv"/>
                             <constraint firstItem="5Dr-mr-tQI" firstAttribute="top" secondItem="Wh6-iE-8qH" secondAttribute="bottom" constant="10" id="e7h-bz-BTF"/>
                             <constraint firstItem="Wh6-iE-8qH" firstAttribute="leading" secondItem="Xe3-6N-x2n" secondAttribute="leading" constant="20" id="jGv-4k-uaI"/>
                             <constraint firstAttribute="trailingMargin" secondItem="n14-eH-He3" secondAttribute="trailing" constant="45" id="qbZ-6f-kly"/>
-                            <constraint firstItem="YUF-G7-38U" firstAttribute="top" secondItem="5Dr-mr-tQI" secondAttribute="bottom" constant="10" id="u5C-J5-cTW"/>
                         </constraints>
                     </view>
                     <connections>
@@ -133,6 +126,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="plus" catalog="system"/>
+        <image name="plus" catalog="system" width="64" height="56"/>
     </resources>
 </document>
