@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_breakfast"
+        android:enabled="true"
+        android:icon="@drawable/ic_breakfast"
+        android:title="@string/breakfast_title"
+        app.showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_diner"
+        android:enabled="true"
+        android:icon="@drawable/ic_diner"
+        android:title="@string/diner_title"
+        app.showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_souper"
+        android:enabled="true"
+        android:icon="@drawable/ic_souper"
+        android:title="@string/souper_title"
+        app.showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_collation"
+        android:enabled="true"
+        android:icon="@drawable/ic_collation"
+        android:title="@string/collation_title"
+        app.showAsAction="ifRoom"/>
+</menu>

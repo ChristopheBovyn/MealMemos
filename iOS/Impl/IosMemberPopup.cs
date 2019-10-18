@@ -7,7 +7,7 @@ using UIKit;
 
 namespace GPS.iOS
 {
-    public class IosMemberPopup : IMemberPopup
+    public class IosMemberPopup : IMealPopup
     {
         public UIViewController ViewController { get; }
         private TaskCompletionSource<string> taskCompletionSource;

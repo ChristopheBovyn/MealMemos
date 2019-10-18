@@ -143,7 +143,7 @@ namespace MealMemos.iOS
 
         private void registerServices()
         {
-            SimpleIoc.Default.Register<IMemberPopup>(() => { return new IosMemberPopup(this.MemberViewControllerAtIndex(this.currentMemberIndex)); });
+            SimpleIoc.Default.Register<IMealPopup>(() => { return new IosMemberPopup(this.MemberViewControllerAtIndex(this.currentMemberIndex)); });
         }
     }
 }

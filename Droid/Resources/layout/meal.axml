@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:id="@android:id/content">
+	<TextView
+		android:id="@+id/meal_title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAppearance="@android:style/TextAppearance.Large"
+		android:layout_alignParentTop="true"
+		android:textSize="28dp"
+		android:textColor="@color/colorUnSelected"
+		android:layout_marginLeft="15dp"
+		android:text="Meal Title"/>
+	<android.support.v7.widget.RecyclerView
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="80dp"
+		android:textColor="@color/colorUnSelected"
+		android:id="@+id/meal_details"/>
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/add_aliment_dish"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:theme="@style/Theme.AppCompat"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginRight="30dp"
+		android:layout_marginBottom="65dp"
+		android:backgroundTint="@color/colorAccentDark"
+		android:src="@drawable/ic_plus_black_18dp"/>
+</RelativeLayout>

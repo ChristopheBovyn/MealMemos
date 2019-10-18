@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Views;
@@ -8,12 +7,12 @@ using MealMemos.Interfaces;
 
 namespace MealMemos.Droid.Impl
 {
-    public class AndroidMemberPopup : IMemberPopup
+    public class AndroidMealPopup : IMealPopup
     {
         private Context context;
         private TaskCompletionSource<string> taskCompletionSource;
 
-        public AndroidMemberPopup(Context context)
+        public AndroidMealPopup(Context context)
         {
             this.context = context;
         }
@@ -29,14 +28,14 @@ namespace MealMemos.Droid.Impl
 
             string value = "";
             LayoutInflater layout = LayoutInflater.From(this.context);
-            View view = layout.Inflate(Resource.Layout.memberPopup, null);
-            var editext = view.FindViewById<EditText>(Resource.Id.editNewInfo);
+            View view = layout.Inflate(Resource.Layout.dialog_add_dish, null);
+            var editext = view.FindViewById<EditText>(Resource.Id.editNewDish);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
             builder.SetView(view);
             builder.SetCancelable(true);
 
-            builder.SetPositiveButton("Add information", (sender, args) =>
+            builder.SetPositiveButton("Add dish", (sender, args) =>
             {
                 value = editext.Text;
                 taskCompletionSource.SetResult(value);

@@ -54,7 +54,7 @@ namespace MealMemos.iOS
          
         private async Task OpenPopup()
         {
-            var result = await SimpleIoc.Default.GetInstance<IMemberPopup>().OpenPopupWithResult();
+            var result = await SimpleIoc.Default.GetInstance<IMealPopup>().OpenPopupWithResult();
             if (!result.IsNullOrEmpty())
             {
                 this.SetInfo(result);

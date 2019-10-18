@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace MealMemos.Interfaces
 {
-    public interface IMemberPopup
+    public interface IMealPopup
     {
         void OpenPopup();
         Task<string> OpenPopupWithResult();

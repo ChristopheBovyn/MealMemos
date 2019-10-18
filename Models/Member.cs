@@ -7,6 +7,7 @@ namespace MealMemos.Models
     {
         public string Firstname { get; }
         public string ColorTheme { get; }
+        public List<string> Informations = new List<string>();
 
         public Member(string firstname)
         {
@@ -17,6 +18,11 @@ namespace MealMemos.Models
         {
             Firstname = firstname;
             ColorTheme = color;
+        }
+
+        public void AddInformation(string info)
+        {
+            this.Informations?.Add(info);
         }
     }
 

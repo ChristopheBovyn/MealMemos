@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content">
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:padding="8dp">
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@android:color/black"
+			android:text="Caption"
+			android:textSize="24dp"
+			android:id="@+id/meal_title_textView"
+			android:layout_gravity="center_horizontal"
+			android:layout_marginLeft="4dp" />
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="24dp"
+			android:layout_alignParentRight="true"
+			android:id="@+id/delete_dish_icon"
+			android:src="@drawable/ic_delete_black_24dp"
+			android:visibility="visible"
+            android:layout_centerVertical="true"/>
+	</RelativeLayout>
+</FrameLayout>

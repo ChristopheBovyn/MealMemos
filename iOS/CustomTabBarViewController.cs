@@ -44,7 +44,7 @@ namespace MealMemos.iOS
 
         private void registerServices()
         {
-            SimpleIoc.Default.Register<IMemberPopup>(() => { return new IosMemberPopup(this); });
+            SimpleIoc.Default.Register<IMealPopup>(() => { return new IosMemberPopup(this); });
         }
     }
 }
