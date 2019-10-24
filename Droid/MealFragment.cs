@@ -6,21 +6,23 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Ioc;
 using MealMemos.Interfaces;
-using Xamarin.Essentials;
 using MealMemos.Extensions;
 using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Android.Support.V7.Widget;
 using System.Collections.Generic;
+using Xamarin.Essentials;
+using Newtonsoft.Json;
 
 namespace MealMemos.Droid
 {
     public class MealFragment : Android.Support.V4.App.Fragment
     {
         private const string PageTitle = "page_title";
+        private List<string> dishes = new List<string>();
         private TextView MealTitle;
         private RecyclerView RecyclerView;
-        private List<string> MealList = new List<string>();
+        private string pageTitle;
 
         private MealAdapter MealAdapter;
 
@@ -33,19 +35,18 @@ namespace MealMemos.Droid
             return mealFragment;
         }
 
-        //TODO : override OnCreate
-
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            string mealTitle = Arguments.GetString(PageTitle, "");
+            this.pageTitle = Arguments.GetString(PageTitle, "");
             View view = inflater.Inflate(Resource.Layout.meal, container, false);
             this.RecyclerView = view.FindViewById<RecyclerView>(Resource.Id.meal_details);
             this.RecyclerView.SetLayoutManager(new LinearLayoutManager(Application.Context));
-            this.MealAdapter = new MealAdapter(this.MealList);
+            this.dishes = this.LoadDishes();
+            this.MealAdapter = new MealAdapter(this.dishes,this.pageTitle);
             this.RecyclerView.SetAdapter(MealAdapter);
 
             this.MealTitle = (TextView)view.FindViewById(Resource.Id.meal_title);
-            this.MealTitle.Text = mealTitle;
+            this.MealTitle.Text = this.pageTitle;
 
             var addButton = view.FindViewById<FloatingActionButton>(Resource.Id.add_aliment_dish);
             addButton.Click += this.AddButtonClick;
@@ -62,7 +63,7 @@ namespace MealMemos.Droid
             var result = await SimpleIoc.Default.GetInstance<IMealPopup>().OpenPopupWithResult();
             if (!result.IsNullOrEmpty())
             {
-                this.SetMeal(result);
+                this.MealAdapter.AddDish(result);
             }
             else
             {
@@ -70,15 +71,15 @@ namespace MealMemos.Droid
             }
         }
 
-        private void SetMeal(string meal)
+        private List<string> LoadDishes()
         {
-            this.MealList.Add(meal);
-            this.MealAdapter.NotifyDataSetChanged();
-        }
-
-        private void RegisterMeal(string key,string value)
-        {
-              Preferences.Set(key, value);
+            List<string> dishList = new List<string>();
+            var json = Preferences.Get(this.pageTitle, null);
+            if (json != null)
+            {
+                dishList = JsonConvert.DeserializeObject<List<string>>(json);
+            }
+            return dishList;
         }
     }
 }

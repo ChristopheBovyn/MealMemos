@@ -10,6 +10,7 @@ namespace MealMemos.iOS
 {
     public class TableViewSource : UITableViewSource
     {
+        public string Identifier = string.Empty;
         List<string> Items;
         public TableViewSource(List<string> items)
         {
@@ -34,7 +35,7 @@ namespace MealMemos.iOS
             this.Items.Add(element);
         }
 
-        public override void CommitEditingStyle(UITableView tableView, UITableViewCellEditingStyle editingStyle, Foundation.NSIndexPath indexPath)
+        public override void CommitEditingStyle(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
         {
             switch (editingStyle)
             {
@@ -43,6 +44,7 @@ namespace MealMemos.iOS
                     this.Items.RemoveAt(indexPath.Row);
                     // delete the row from the table
                     tableView.DeleteRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None);
+                    this.Save();
                     break;
                 case UITableViewCellEditingStyle.None:
                     Console.WriteLine("CommitEditingStyle:None called");
@@ -60,9 +62,9 @@ namespace MealMemos.iOS
             return "Delete";
         }
 
-        public void Save(string key)
+        public void Save()
         {
-            Preferences.Set(key,JsonConvert.SerializeObject(this.Items));
+            Preferences.Set(this.Identifier, JsonConvert.SerializeObject(this.Items));
         }
     }
 }

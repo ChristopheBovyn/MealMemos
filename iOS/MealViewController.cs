@@ -1,14 +1,13 @@
 using System;
-using UIKit;
-using MealMemos.Extensions;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Ioc;
-using MealMemos.Interfaces;
-using AsyncAwaitBestPractices;
-using Masonry;
 using System.Collections.Generic;
-using Xamarin.Essentials;
+using System.Threading.Tasks;
+using AsyncAwaitBestPractices;
+using GalaSoft.MvvmLight.Ioc;
+using MealMemos.Extensions;
+using MealMemos.Interfaces;
 using Newtonsoft.Json;
+using UIKit;
+using Xamarin.Essentials;
 
 namespace MealMemos.iOS
 {
@@ -33,15 +32,10 @@ namespace MealMemos.iOS
             this.addDishButton.Layer.CornerRadius = this.addDishButton.Frame.Width / 2;
             this.addDishButton.TouchUpInside += this.AddDishAction;
             this.viewSource = new TableViewSource(this.LoadDishes());
+            viewSource.Identifier = MealTitleText;
             this.TableView.Source = this.viewSource;
             this.TableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
             this.TableView.SetEditing(true, true);
-        }
-
-        public override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
-            this.viewSource.Save(this.MealTitleText);
         }
 
         private void AddDishAction(object sender, EventArgs e)
@@ -66,7 +60,7 @@ namespace MealMemos.iOS
         {
             this.viewSource.AddElement(dishValue);
             this.TableView.ReloadData();
-            this.viewSource.Save(this.MealTitleText);
+            this.viewSource.Save();
         }
 
         private List<string> LoadDishes()

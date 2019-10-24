@@ -9,28 +9,28 @@ namespace MealMemos.Droid
     public class MealViewHolder : RecyclerView.ViewHolder
     {
         public TextView MealTitleTextView;
-        private ImageView delateImageView;
+        private ImageView deleteImageView;
         private readonly Action<int> listener;
 
         public MealViewHolder(View itemView,Action<int> listener) : base(itemView)
         {
             this.MealTitleTextView = itemView.FindViewById<TextView>(Resource.Id.meal_title_textView);
-            this.delateImageView = itemView.FindViewById<ImageView>(Resource.Id.delete_dish_icon);
+            this.deleteImageView = itemView.FindViewById<ImageView>(Resource.Id.delete_dish_icon);
             this.listener = listener;
             this.MealTitleTextView.Click += ItemView_Click;
-            this.delateImageView.Click += DeleteImageView_Click;
+            this.deleteImageView.Click += DeleteImageView_Click;
         }
 
         private void ItemView_Click(object sender, EventArgs e)
         {
             
-            if(this.delateImageView.Visibility == ViewStates.Visible)
+            if(this.deleteImageView.Visibility == ViewStates.Visible)
             {
-                this.delateImageView.Visibility = ViewStates.Invisible;
+                this.deleteImageView.Visibility = ViewStates.Invisible;
             }
             else
             {
-                this.delateImageView.Visibility = ViewStates.Visible;
+                this.deleteImageView.Visibility = ViewStates.Visible;
             }
         }
 

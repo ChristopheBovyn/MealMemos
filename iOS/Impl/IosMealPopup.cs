@@ -7,40 +7,15 @@ using UIKit;
 
 namespace GPS.iOS
 {
-    public class IosMemberPopup : IMealPopup
+    public class IosMealPopup : IMealPopup
     {
         public UIViewController ViewController { get; }
         private TaskCompletionSource<string> taskCompletionSource;
-        private string informationText;
+        private string dishText;
 
-        public IosMemberPopup()
-        {
-
-        }
-        public IosMemberPopup(UIViewController viewController)
+        public IosMealPopup(UIViewController viewController)
         {
             ViewController = viewController;
-        }
-
-        public void OpenPopup()
-        {
-            UITextField uiText = null;
-            var alertController = UIAlertController.Create("Add member information", "", UIAlertControllerStyle.Alert);
-            alertController.AddAction(UIAlertAction.Create("Add", UIAlertActionStyle.Default, action => AddInformationFromTextField(uiText)));
-            alertController.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
-            
-            alertController.AddTextField((uiTextField) =>
-            {
-                uiTextField.Placeholder = "Enter your information";
-                uiText = uiTextField;
-            });
-            this.ViewController.PresentViewController(alertController, true, null);
-        }
-
-        private void AddInformationFromTextField(UITextField uiText)
-        {
-            this.informationText = uiText.Text;
-            taskCompletionSource.SetResult(uiText.Text);
         }
 
         public Task<string> OpenPopupWithResult()
@@ -48,19 +23,25 @@ namespace GPS.iOS
             taskCompletionSource = new TaskCompletionSource<string>();
 
             UITextField uiText = null;
-            var alertController = UIAlertController.Create("Add member information", "", UIAlertControllerStyle.Alert);
-            alertController.AddAction(UIAlertAction.Create("Add", UIAlertActionStyle.Default, action => AddInformationFromTextField(uiText)));
+            var alertController = UIAlertController.Create("Add aliment / dish", "", UIAlertControllerStyle.Alert);
+            alertController.AddAction(UIAlertAction.Create("Add", UIAlertActionStyle.Default, action => AddDishTextField(uiText)));
             alertController.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
 
             alertController.AddTextField((uiTextField) =>
             {
-                uiTextField.Placeholder = "Enter your information";
+                uiTextField.Placeholder = "Enter an aliment / dish";
                 uiText = uiTextField;
                 
             });
             this.ViewController.PresentViewController(alertController, true, null);
 
             return taskCompletionSource.Task;
+        }
+
+        private void AddDishTextField(UITextField uiText)
+        {
+            this.dishText = uiText.Text;
+            taskCompletionSource.SetResult(uiText.Text);
         }
     }
 }

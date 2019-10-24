@@ -12,9 +12,23 @@ namespace MealMemos.iOS
 	[Register ("CustomViewCellController")]
 	partial class CustomViewCellController
 	{
+		[Outlet]
+		UIKit.UIButton DeleteMealBtn { get; set; }
+
+		[Outlet]
+		UIKit.UILabel MealTitleLabel { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (MealTitleLabel != null) {
+				MealTitleLabel.Dispose ();
+				MealTitleLabel = null;
+			}
+
+			if (DeleteMealBtn != null) {
+				DeleteMealBtn.Dispose ();
+				DeleteMealBtn = null;
+			}
 		}
 	}
 }
