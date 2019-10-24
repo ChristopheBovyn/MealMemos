@@ -40,10 +40,10 @@
             </objects>
             <point key="canvasLocation" x="-346.3768" y="-234.375"/>
         </scene>
-        <!--Member View Controller-->
+        <!--Meal View Controller-->
         <scene sceneID="v85-LP-Kmn">
             <objects>
-                <viewController storyboardIdentifier="MemberViewController" id="M3o-0c-yKP" customClass="MemberViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MealViewController" id="M3o-0c-yKP" customClass="MealViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LSX-zl-fWw"/>
                         <viewControllerLayoutGuide type="bottom" id="YUF-G7-38U"/>
@@ -62,44 +62,80 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n14-eH-He3">
-                                <rect key="frame" x="334" y="745" width="60" height="60"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DUW-U9-r1e">
+                                <rect key="frame" x="20" y="149" width="384" height="561"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomViewCell" rowHeight="127" id="3F3-1L-rkc" customClass="CustomViewCellController">
+                                        <rect key="frame" x="0.0" y="28" width="384" height="127"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3F3-1L-rkc" id="bZq-EO-onQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="384" height="127"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fY6-Ed-0tb">
+                                                    <rect key="frame" x="15" y="53" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TD6-Um-ub4">
+                                                    <rect key="frame" x="330" y="51.5" width="34" height="24"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="24" id="9ca-Rc-LTe"/>
+                                                        <constraint firstAttribute="width" constant="34" id="EK6-cr-vur"/>
+                                                    </constraints>
+                                                    <state key="normal" image="delete"/>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="TD6-Um-ub4" secondAttribute="trailing" constant="20" id="26Z-aW-aco"/>
+                                                <constraint firstItem="TD6-Um-ub4" firstAttribute="centerY" secondItem="bZq-EO-onQ" secondAttribute="centerY" id="atm-a8-T1b"/>
+                                                <constraint firstItem="fY6-Ed-0tb" firstAttribute="centerY" secondItem="bZq-EO-onQ" secondAttribute="centerY" id="th0-D4-saC"/>
+                                                <constraint firstItem="fY6-Ed-0tb" firstAttribute="leading" secondItem="bZq-EO-onQ" secondAttribute="leading" constant="15" id="vDd-SN-Gcz"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="DeleteMealBtn" destination="TD6-Um-ub4" id="HYZ-OI-Kn7"/>
+                                            <outlet property="MealTitleLabel" destination="fY6-Ed-0tb" id="Rxq-Eh-0nd"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n14-eH-He3">
+                                <rect key="frame" x="324" y="742" width="60" height="60"/>
                                 <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Pm1-A5-Jkt"/>
                                     <constraint firstAttribute="width" constant="60" id="kg5-4G-X25"/>
                                 </constraints>
                                 <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="8"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="plus" catalog="system"/>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DUW-U9-r1e">
-                                <rect key="frame" x="20" y="149" width="374" height="564"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Wh6-iE-8qH" firstAttribute="top" secondItem="LSX-zl-fWw" secondAttribute="bottom" constant="40" id="4nn-Fy-NLY"/>
+                            <constraint firstAttribute="trailing" secondItem="DUW-U9-r1e" secondAttribute="trailing" constant="10" id="Ck4-Ft-Zlz"/>
                             <constraint firstItem="YUF-G7-38U" firstAttribute="top" secondItem="n14-eH-He3" secondAttribute="bottom" constant="60" id="b4S-4h-hFv"/>
                             <constraint firstItem="DUW-U9-r1e" firstAttribute="leading" secondItem="Wh6-iE-8qH" secondAttribute="leading" id="dAw-pJ-8IE"/>
                             <constraint firstItem="n14-eH-He3" firstAttribute="top" secondItem="DUW-U9-r1e" secondAttribute="bottom" constant="32" id="hvl-YW-S9s"/>
                             <constraint firstItem="Wh6-iE-8qH" firstAttribute="leading" secondItem="Xe3-6N-x2n" secondAttribute="leading" constant="20" id="jGv-4k-uaI"/>
-                            <constraint firstItem="DUW-U9-r1e" firstAttribute="trailing" secondItem="n14-eH-He3" secondAttribute="trailing" id="pr3-LW-icG"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="n14-eH-He3" secondAttribute="trailing" constant="45" id="qbZ-6f-kly"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="n14-eH-He3" secondAttribute="trailing" constant="10" id="qbZ-6f-kly"/>
                             <constraint firstItem="DUW-U9-r1e" firstAttribute="top" secondItem="Wh6-iE-8qH" secondAttribute="bottom" constant="35" id="riW-9O-9a2"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="TableView" destination="DUW-U9-r1e" id="mrg-CM-zxo"/>
-                        <outlet property="addInformation" destination="n14-eH-He3" id="mww-v0-Xgy"/>
-                        <outlet property="firstnameLabel" destination="Wh6-iE-8qH" id="4U8-iu-DqM"/>
+                        <outlet property="addDishButton" destination="n14-eH-He3" id="KkB-u1-VbB"/>
+                        <outlet property="mealTitleLabel" destination="Wh6-iE-8qH" id="JsY-Yf-wQi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8d3-GP-Qhy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="427.536231884058" y="-234.375"/>
+            <point key="canvasLocation" x="437.68115942028987" y="-234.375"/>
         </scene>
         <!--Custom Tab Bar View Controller-->
         <scene sceneID="KKt-ZR-Gju">
@@ -113,7 +149,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TKB-4o-Wcz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-551" y="1002"/>
+            <point key="canvasLocation" x="-346" y="516"/>
         </scene>
         <!--Custom Page View Controller-->
         <scene sceneID="C9H-5J-KtI">
@@ -127,6 +163,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="delete" width="24" height="24"/>
         <image name="plus" catalog="system" width="64" height="56"/>
     </resources>
 </document>

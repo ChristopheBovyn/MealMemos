@@ -17,15 +17,13 @@ namespace MealMemos.iOS
     public partial class HomepageViewController : UIViewController, IUIPageViewControllerDataSource
     {
         private Team team;
-        private int currentMemberIndex = 0;
-        private List<string> bgcolors;
+        private int currentMealIndex = 0;
         private UIPageViewController pageViewController;
         private UIPageControl pageControl;
 
         public HomepageViewController(IntPtr handle) : base(handle)
         {
             this.team = new Team();
-            this.bgcolors = SetColors();
         }
 
         public override void ViewDidLoad()
@@ -64,16 +62,17 @@ namespace MealMemos.iOS
 
             this.pageControl.MakeConstraints(make =>
             {
-                make.Bottom.EqualTo(this.contentView.Bottom()).Offset(-100);
+                make.Bottom.EqualTo(this.contentView.Bottom()).Offset(-80);
                 make.CenterX.EqualTo(this.contentView);
             });
 
-            var startingViewController = MemberViewControllerAtIndex(currentMemberIndex);
-            List<MemberViewController> allMembers = new List<MemberViewController>
+            var startingViewController = MealViewControllerAt(currentMealIndex);
+            List<MealViewController> mealList = new List<MealViewController>
             {
                 startingViewController
             };
-            this.pageViewController.SetViewControllers(allMembers.ToArray(), UIPageViewControllerNavigationDirection.Forward, false, null);
+            this.pageViewController.SetViewControllers(mealList.ToArray(), UIPageViewControllerNavigationDirection.Forward, false, null);
+            this.pageViewController.ViewControllers[0].TabBarItem.Image = UIImage();
         }
 
         private void PageViewControllerDidFinishAnimating(object sender, UIPageViewFinishedAnimationEventArgs e)
@@ -84,66 +83,49 @@ namespace MealMemos.iOS
                 // Get the current displayed
                 // Cast as MemberViewController
                 // Get index
-                this.pageControl.CurrentPage = (this.pageViewController.ViewControllers?.FirstOrDefault() as MemberViewController).index;
+                this.pageControl.CurrentPage = (this.pageViewController.ViewControllers?.FirstOrDefault() as MealViewController).index;
             }
         }
 
-        private MemberViewController MemberViewControllerAtIndex(int index)
+        private MealViewController MealViewControllerAt(int index)
         {
             if (index >= team.MemberCount || team.MemberCount == 0)
             {
                 return null;
             }
-            var memberViewController = (MemberViewController)Storyboard.InstantiateViewController("MemberViewController");
-            memberViewController.firstnameText = this.team[index].Firstname;
-            memberViewController.index = index;
-            if (index >= this.bgcolors.Count)
-                memberViewController.View.BackgroundColor = UIColor.Orange;
-            else
-                memberViewController.View.BackgroundColor = ColorConverters.FromHex(this.bgcolors[index]).ToPlatformColor();
-            return memberViewController;
+            var mealViewController = (MealViewController)Storyboard.InstantiateViewController("MealViewController");
+            mealViewController.MealTitleText = this.team[index].Firstname;
+            mealViewController.index = index;
+            return mealViewController;
         }
 
         public UIViewController GetPreviousViewController(UIPageViewController pageViewController, UIViewController referenceViewController)
         {
-            var current = (MemberViewController)referenceViewController;
+            var current = (MealViewController)referenceViewController;
             var index = current.index;
             if (index == 0)
             {
                 return null;
             }
             index--;
-            return this.MemberViewControllerAtIndex(index);
+            return this.MealViewControllerAt(index);
         }
 
         public UIViewController GetNextViewController(UIPageViewController pageViewController, UIViewController referenceViewController)
         {
-            var current = (MemberViewController)referenceViewController;
+            var current = (MealViewController)referenceViewController;
             var index = current.index;
             if (index == team.MemberCount)
             {
                 return null;
             }
             index++;
-            return this.MemberViewControllerAtIndex(index);
-        }
-
-        private List<string> SetColors()
-        {
-            List<string> colors = new List<string>
-            {
-                Color.Blue,
-                Color.Gray,
-                Color.Green,
-                Color.Yellow,
-                Color.Magenta
-            };
-            return colors;
+            return this.MealViewControllerAt(index);
         }
 
         private void registerServices()
         {
-            SimpleIoc.Default.Register<IMealPopup>(() => { return new IosMemberPopup(this.MemberViewControllerAtIndex(this.currentMemberIndex)); });
+            SimpleIoc.Default.Register<IMealPopup>(() => { return new IosMealPopup(this.MealViewControllerAt(this.currentMealIndex)); });
         }
     }
 }

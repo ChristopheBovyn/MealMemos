@@ -9,28 +9,28 @@ using System.CodeDom.Compiler;
 
 namespace MealMemos.iOS
 {
-	[Register ("MemberViewController")]
-	partial class MemberViewController
+	[Register ("MealViewController")]
+	partial class MealViewController
 	{
 		[Outlet]
-		UIKit.UIButton addInformation { get; set; }
+		UIKit.UIButton addDishButton { get; set; }
 
 		[Outlet]
-		UIKit.UILabel firstnameLabel { get; set; }
+		UIKit.UILabel mealTitleLabel { get; set; }
 
 		[Outlet]
 		UIKit.UITableView TableView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (addInformation != null) {
-				addInformation.Dispose ();
-				addInformation = null;
+			if (addDishButton != null) {
+				addDishButton.Dispose ();
+				addDishButton = null;
 			}
 
-			if (firstnameLabel != null) {
-				firstnameLabel.Dispose ();
-				firstnameLabel = null;
+			if (mealTitleLabel != null) {
+				mealTitleLabel.Dispose ();
+				mealTitleLabel = null;
 			}
 
 			if (TableView != null) {

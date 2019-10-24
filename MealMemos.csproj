@@ -32,7 +32,8 @@
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
-    <Compile Include="Interfaces\IMemberPopup.cs" />
+    <Compile Include="Interfaces\IMealPopup.cs" />
+    <Compile Include="Models\MealItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

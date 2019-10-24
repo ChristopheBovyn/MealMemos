@@ -17,11 +17,6 @@ namespace MealMemos.Droid.Impl
             this.context = context;
         }
 
-        public void OpenPopup()
-        {
-
-        }
-
         public Task<string> OpenPopupWithResult()
         {
             taskCompletionSource = new TaskCompletionSource<string>();

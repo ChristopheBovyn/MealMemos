@@ -102,15 +102,40 @@
     <Reference Include="AsyncAwaitBestPractices">
       <HintPath>..\packages\AsyncAwaitBestPractices.3.1.0\lib\netstandard1.0\AsyncAwaitBestPractices.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Color.colorset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Image.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Image.imageset\baseline_delete_black_24dp.pdf" />
+    <ImageAsset Include="Assets.xcassets\Image.imageset\1x\baseline_delete_black_18dp.png" />
+    <ImageAsset Include="Assets.xcassets\breakfast.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\breakfast.imageset\iconfinder_food-drink-cup-coffee-tea-drink-glyph_763311.png" />
+    <ImageAsset Include="Assets.xcassets\diner.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\souper.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\collation.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\diner.imageset\iconfinder__food_2324276.png" />
+    <ImageAsset Include="Assets.xcassets\souper.imageset\iconfinder_Soup_2638306.png" />
+    <ImageAsset Include="Assets.xcassets\collation.imageset\iconfinder_26_2739095.png" />
+    <ImageAsset Include="Assets.xcassets\delete.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\delete.imageset\baseline_delete_black_24dp.png" />
+    <ImageAsset Include="Assets.xcassets\test.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\test.imageset\ic_test%401x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Impl\" />
+    <Folder Include="Assets.xcassets\breakfast.imageset\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Assets.xcassets\diner.imageset\" />
+    <Folder Include="Assets.xcassets\souper.imageset\" />
+    <Folder Include="Assets.xcassets\collation.imageset\" />
+    <Folder Include="Assets.xcassets\delete.imageset\" />
+    <Folder Include="Assets.xcassets\test.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -123,24 +148,27 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="MemberViewController.cs" />
-    <Compile Include="MemberViewController.designer.cs">
-      <DependentUpon>MemberViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="CustomPageViewController.cs" />
     <Compile Include="CustomPageViewController.designer.cs">
       <DependentUpon>CustomPageViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HomepageViewController.cs" />
-    <Compile Include="HomepageViewController.designer.cs">
-      <DependentUpon>HomepageViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomTabBarViewController.cs" />
     <Compile Include="CustomTabBarViewController.designer.cs">
       <DependentUpon>CustomTabBarViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Impl\IosMemberPopup.cs" />
+    <Compile Include="Impl\IosMealPopup.cs" />
     <Compile Include="TableViewSource.cs" />
+    <Compile Include="MealViewController.cs" />
+    <Compile Include="MealViewController.designer.cs" />
+    <Compile Include="HomepageViewController.cs" />
+    <Compile Include="HomepageViewController.designer.cs">
+      <DependentUpon>HomepageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\UIImageExtension.cs" />
+    <Compile Include="CustomViewCellController.cs" />
+    <Compile Include="CustomViewCellController.designer.cs">
+      <DependentUpon>CustomViewCellController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MealMemos.csproj">
