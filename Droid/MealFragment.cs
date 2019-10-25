@@ -13,6 +13,11 @@ using Android.Support.V7.Widget;
 using System.Collections.Generic;
 using Xamarin.Essentials;
 using Newtonsoft.Json;
+using Firebase.Firestore;
+using Android.Gms.Tasks;
+using Java.Lang;
+using Java.Util;
+using System.Collections.ObjectModel;
 
 namespace MealMemos.Droid
 {
@@ -41,7 +46,6 @@ namespace MealMemos.Droid
             View view = inflater.Inflate(Resource.Layout.meal, container, false);
             this.RecyclerView = view.FindViewById<RecyclerView>(Resource.Id.meal_details);
             this.RecyclerView.SetLayoutManager(new LinearLayoutManager(Application.Context));
-            this.dishes = this.LoadDishes();
             this.MealAdapter = new MealAdapter(this.dishes,this.pageTitle);
             this.RecyclerView.SetAdapter(MealAdapter);
 
@@ -58,7 +62,7 @@ namespace MealMemos.Droid
             this.OpenPopup().SafeFireAndForget();
         }
 
-        private async Task OpenPopup()
+        private async System.Threading.Tasks.Task OpenPopup()
         {
             var result = await SimpleIoc.Default.GetInstance<IMealPopup>().OpenPopupWithResult();
             if (!result.IsNullOrEmpty())
@@ -69,17 +73,6 @@ namespace MealMemos.Droid
             {
                 System.Diagnostics.Debug.WriteLine("MealFragment : AddButtonClick() : result is null");
             }
-        }
-
-        private List<string> LoadDishes()
-        {
-            List<string> dishList = new List<string>();
-            var json = Preferences.Get(this.pageTitle, null);
-            if (json != null)
-            {
-                dishList = JsonConvert.DeserializeObject<List<string>>(json);
-            }
-            return dishList;
         }
     }
 }

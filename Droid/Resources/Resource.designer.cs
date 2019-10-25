@@ -3918,25 +3918,28 @@ namespace MealMemos.Droid
 			public const int design_tab_indicator_anim_duration_ms = 2131296263;
 			
 			// aapt resource value: 0x7F090008
-			public const int hide_password_duration = 2131296264;
+			public const int google_play_services_version = 2131296264;
 			
 			// aapt resource value: 0x7F090009
-			public const int mtrl_btn_anim_delay_ms = 2131296265;
+			public const int hide_password_duration = 2131296265;
 			
 			// aapt resource value: 0x7F09000A
-			public const int mtrl_btn_anim_duration_ms = 2131296266;
+			public const int mtrl_btn_anim_delay_ms = 2131296266;
 			
 			// aapt resource value: 0x7F09000B
-			public const int mtrl_chip_anim_duration = 2131296267;
+			public const int mtrl_btn_anim_duration_ms = 2131296267;
 			
 			// aapt resource value: 0x7F09000C
-			public const int mtrl_tab_indicator_anim_duration_ms = 2131296268;
+			public const int mtrl_chip_anim_duration = 2131296268;
 			
 			// aapt resource value: 0x7F09000D
-			public const int show_password_duration = 2131296269;
+			public const int mtrl_tab_indicator_anim_duration_ms = 2131296269;
 			
 			// aapt resource value: 0x7F09000E
-			public const int status_bar_notification_info_maxnum = 2131296270;
+			public const int show_password_duration = 2131296270;
+			
+			// aapt resource value: 0x7F09000F
+			public const int status_bar_notification_info_maxnum = 2131296271;
 			
 			static Integer()
 			{
@@ -4367,46 +4370,49 @@ namespace MealMemos.Droid
 			public const int collation_title = 2131623981;
 			
 			// aapt resource value: 0x7F0E002E
-			public const int diner_title = 2131623982;
+			public const int common_google_play_services_unknown_issue = 2131623982;
 			
 			// aapt resource value: 0x7F0E002F
-			public const int fab_transformation_scrim_behavior = 2131623983;
+			public const int diner_title = 2131623983;
 			
 			// aapt resource value: 0x7F0E0030
-			public const int fab_transformation_sheet_behavior = 2131623984;
+			public const int fab_transformation_scrim_behavior = 2131623984;
 			
 			// aapt resource value: 0x7F0E0031
-			public const int hello = 2131623985;
+			public const int fab_transformation_sheet_behavior = 2131623985;
 			
 			// aapt resource value: 0x7F0E0032
-			public const int hide_bottom_view_on_scroll_behavior = 2131623986;
+			public const int hello = 2131623986;
 			
 			// aapt resource value: 0x7F0E0033
-			public const int mtrl_chip_close_icon_content_description = 2131623987;
+			public const int hide_bottom_view_on_scroll_behavior = 2131623987;
 			
 			// aapt resource value: 0x7F0E0034
-			public const int password_toggle_content_description = 2131623988;
+			public const int mtrl_chip_close_icon_content_description = 2131623988;
 			
 			// aapt resource value: 0x7F0E0035
-			public const int path_password_eye = 2131623989;
+			public const int password_toggle_content_description = 2131623989;
 			
 			// aapt resource value: 0x7F0E0036
-			public const int path_password_eye_mask_strike_through = 2131623990;
+			public const int path_password_eye = 2131623990;
 			
 			// aapt resource value: 0x7F0E0037
-			public const int path_password_eye_mask_visible = 2131623991;
+			public const int path_password_eye_mask_strike_through = 2131623991;
 			
 			// aapt resource value: 0x7F0E0038
-			public const int path_password_strike_through = 2131623992;
+			public const int path_password_eye_mask_visible = 2131623992;
 			
 			// aapt resource value: 0x7F0E0039
-			public const int search_menu_title = 2131623993;
+			public const int path_password_strike_through = 2131623993;
 			
 			// aapt resource value: 0x7F0E003A
-			public const int souper_title = 2131623994;
+			public const int search_menu_title = 2131623994;
 			
 			// aapt resource value: 0x7F0E003B
-			public const int status_bar_notification_info_overflow = 2131623995;
+			public const int souper_title = 2131623995;
+			
+			// aapt resource value: 0x7F0E003C
+			public const int status_bar_notification_info_overflow = 2131623996;
 			
 			static String()
 			{

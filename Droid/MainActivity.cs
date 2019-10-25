@@ -8,6 +8,7 @@ using MealMemos.Interfaces;
 using GalaSoft.MvvmLight.Ioc;
 using MealMemos.Droid.Impl;
 using Android.Widget;
+using Firebase;
 
 namespace MealMemos.Droid
 {
@@ -15,19 +16,21 @@ namespace MealMemos.Droid
     public class MainActivity : FragmentActivity
     {
         private BottomNavigationView BottomNavigationView;
+        public static FirebaseApp firebaseApp;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            firebaseApp = this.SetFirebaseApp();
             SetContentView(Resource.Layout.Main);
             Team team = new Team();
             this.BottomNavigationView = FindViewById<BottomNavigationView>(Resource.Id.activity_main_bottom_navigation);
             this.BottomNavigationView.NavigationItemSelected += OnItemSelected;
-           
+
             var contentFrame = FindViewById<FrameLayout>(Resource.Id.content_frame);
             SupportFragmentManager.BeginTransaction()
                 .Replace(Resource.Id.content_frame, MealFragment.NewInstance(this.BottomNavigationView.Menu.GetItem(0).TitleFormatted.ToString())).Commit();
             this.registerServices();
-           
+
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -68,6 +71,19 @@ namespace MealMemos.Droid
 
             SupportFragmentManager.BeginTransaction()
                 .Replace(Resource.Id.content_frame, MealFragment).Commit();
+        }
+
+        private FirebaseApp SetFirebaseApp()
+        {
+            var options = new FirebaseOptions.Builder()
+                .SetProjectId("mealmemos-85014")
+                .SetApplicationId("mealmemos-85014")
+                .SetApiKey("AIzaSyAaDOE04aq2iqlWYsGOUZexHWLoLQj3fgU")
+                .SetDatabaseUrl("https://mealmemos-85014.firebaseio.com")
+                .SetStorageBucket("mealmemos-85014.appspot.com")
+                .Build();
+
+            return FirebaseApp.InitializeApp(this, options);
         }
     }
 }
