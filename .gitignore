@@ -110,3 +110,9 @@ UpgradeLog*.XML
 *.userprefs
 
 .DS_Store
+
+iOS/GoogleService-Info.plist
+
+Droid/Resources/google-services.json
+
+Droid/Utils/FirebaseUtils.cs

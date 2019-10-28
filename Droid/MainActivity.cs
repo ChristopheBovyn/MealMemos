@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight.Ioc;
 using MealMemos.Droid.Impl;
 using Android.Widget;
 using Firebase;
+using MealMemos.Droid.Utils;
 
 namespace MealMemos.Droid
 {
@@ -76,11 +77,11 @@ namespace MealMemos.Droid
         private FirebaseApp SetFirebaseApp()
         {
             var options = new FirebaseOptions.Builder()
-                .SetProjectId("mealmemos-85014")
-                .SetApplicationId("mealmemos-85014")
-                .SetApiKey("AIzaSyAaDOE04aq2iqlWYsGOUZexHWLoLQj3fgU")
-                .SetDatabaseUrl("https://mealmemos-85014.firebaseio.com")
-                .SetStorageBucket("mealmemos-85014.appspot.com")
+                .SetProjectId(FirebaseUtils.projet_id)
+                .SetApplicationId(FirebaseUtils.application_id)
+                .SetApiKey(FirebaseUtils.api_key)
+                .SetDatabaseUrl(FirebaseUtils.database_url)
+                .SetStorageBucket(FirebaseUtils.storage_bucket)
                 .Build();
 
             return FirebaseApp.InitializeApp(this, options);

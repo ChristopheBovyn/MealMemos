@@ -210,6 +210,7 @@
     <Compile Include="Impl\AndroidMealPopup.cs" />
     <Compile Include="MealViewHolder.cs" />
     <Compile Include="MealAdapter.cs" />
+    <Compile Include="Utils\FirebaseUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -293,6 +294,7 @@
     <Folder Include="Resources\drawable\" />
     <Folder Include="Impl\" />
     <Folder Include="Resources\menu\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Annotations.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Annotations.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Annotations.targets')" />

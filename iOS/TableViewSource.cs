@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Foundation;
-using Newtonsoft.Json;
+using Plugin.CloudFirestore;
 using UIKit;
-using Xamarin.Essentials;
 
 
 namespace MealMemos.iOS
@@ -64,7 +63,27 @@ namespace MealMemos.iOS
 
         public void Save()
         {
-            Preferences.Set(this.Identifier, JsonConvert.SerializeObject(this.Items));
+            var map = new Dictionary<string, Object>();
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                map.Add("dish" + (i + 1), this.Items[i]);
+            }
+            var doc = CrossCloudFirestore.Current.Instance.GetCollection("meals").GetDocument(this.Identifier);
+            try
+            {
+                if(map.Count == 0)
+                {
+                    doc.DeleteDocumentAsync();
+                }else
+                {
+                    doc.SetDataAsync(map);
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
         }
     }
 }

@@ -53,7 +53,6 @@ namespace MealMemos.Droid
 
         private void Save()
         {
-            Preferences.Set(this.Identifier, JsonConvert.SerializeObject(this.dishes));
             HashMap map = new HashMap();
             for (int i = 0; i < this.dishes.Count; i++)
             {

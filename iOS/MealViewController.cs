@@ -5,9 +5,8 @@ using AsyncAwaitBestPractices;
 using GalaSoft.MvvmLight.Ioc;
 using MealMemos.Extensions;
 using MealMemos.Interfaces;
-using Newtonsoft.Json;
+using Plugin.CloudFirestore;
 using UIKit;
-using Xamarin.Essentials;
 
 namespace MealMemos.iOS
 {
@@ -31,8 +30,9 @@ namespace MealMemos.iOS
             this.TableView.TranslatesAutoresizingMaskIntoConstraints = false;
             this.addDishButton.Layer.CornerRadius = this.addDishButton.Frame.Width / 2;
             this.addDishButton.TouchUpInside += this.AddDishAction;
-            this.viewSource = new TableViewSource(this.LoadDishes());
+            this.viewSource = new TableViewSource(new List<string>());
             viewSource.Identifier = MealTitleText;
+            this.LoadDishesAsync().SafeFireAndForget();
             this.TableView.Source = this.viewSource;
             this.TableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
             this.TableView.SetEditing(true, true);
@@ -63,15 +63,27 @@ namespace MealMemos.iOS
             this.viewSource.Save();
         }
 
-        private List<string> LoadDishes()
+        private async Task LoadDishesAsync()
         {
             List<string> dishes = new List<string>();
-            var json = Preferences.Get(this.MealTitleText, null);
-            if(json != null)
+            try
             {
-                dishes = JsonConvert.DeserializeObject<List<string>>(json);
+                var document = await CrossCloudFirestore.Current
+                           .Instance
+                           .GetCollection("meals")
+                           .GetDocument(this.MealTitleText)
+                           .GetDocumentAsync();
+                foreach (string dish in document.Data.Values)
+                {
+                    dishes.Add(dish);
+                    this.viewSource.AddElement(dish);
+                }
+                this.TableView.ReloadData();
             }
-            return dishes;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }
