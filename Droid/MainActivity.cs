@@ -10,28 +10,32 @@ using MealMemos.Droid.Impl;
 using Android.Widget;
 using Firebase;
 using MealMemos.Droid.Utils;
+using Android.Support.V7.App;
+using Android.Views;
+using System;
 
 namespace MealMemos.Droid
 {
     [Activity(Label = "MealMemos", MainLauncher = true, Icon = "@mipmap/icon")]
-    public class MainActivity : FragmentActivity
+    public class MainActivity : AppCompatActivity
     {
         private BottomNavigationView BottomNavigationView;
         public static FirebaseApp firebaseApp;
+        public static DateTime mealDay = DateTime.Today;
+        private TextView current_date;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            firebaseApp = this.SetFirebaseApp();
             SetContentView(Resource.Layout.Main);
-            Team team = new Team();
+            firebaseApp = this.SetFirebaseApp();
+            var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
+            SupportActionBar.Title = "MealMemos";
+            this.setDateBtn();
             this.BottomNavigationView = FindViewById<BottomNavigationView>(Resource.Id.activity_main_bottom_navigation);
             this.BottomNavigationView.NavigationItemSelected += OnItemSelected;
-
-            var contentFrame = FindViewById<FrameLayout>(Resource.Id.content_frame);
-            SupportFragmentManager.BeginTransaction()
-                .Replace(Resource.Id.content_frame, MealFragment.NewInstance(this.BottomNavigationView.Menu.GetItem(0).TitleFormatted.ToString())).Commit();
+            this.LoadFirstItemMenu();
             this.registerServices();
-
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -40,6 +44,53 @@ namespace MealMemos.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        private void LoadFirstItemMenu()
+        {
+            SupportFragmentManager.BeginTransaction()
+                 .Replace(Resource.Id.content_frame, MealFragment.NewInstance(this.BottomNavigationView.Menu.GetItem(0).TitleFormatted.ToString())).Commit();
+        }
+
+        private void setDateBtn()
+        {
+            var previousDayBtn = FindViewById<Android.Support.V7.Widget.AppCompatImageButton>(Resource.Id.previous_btn);
+            previousDayBtn.Click += previousDay;
+            var nextDayBtn = FindViewById<Android.Support.V7.Widget.AppCompatImageButton>(Resource.Id.next_btn);
+            nextDayBtn.Click += nextDay;
+            this.current_date = FindViewById<Button>(Resource.Id.dateSelectorBtn);
+            this.current_date.Click += OpenDatePicker;
+            this.current_date.Text = mealDay.Date.ToShortDateString();
+        }
+
+        void OpenDatePicker(object sender, EventArgs eventArgs)
+        {
+            DatePickerFragment frag = DatePickerFragment.NewInstance(delegate (DateTime time)
+            {
+                this.current_date.Text = time.ToShortDateString();
+                mealDay = time;
+                this.BottomNavigationView.SelectedItemId = Resource.Id.menu_breakfast;
+            });
+            frag.Show(FragmentManager, DatePickerFragment.TAG);
+            
+        }
+
+        private void previousDay(object sender, EventArgs e)
+        {
+            mealDay = mealDay.AddDays(-1);
+            current_date.Text = mealDay.ToShortDateString();
+            this.BottomNavigationView.SelectedItemId = Resource.Id.menu_breakfast;
+            this.LoadFirstItemMenu();
+        }
+
+        private void nextDay(object sender, EventArgs e)
+        {
+            mealDay = mealDay.AddDays(1);
+            current_date.Text = mealDay.ToShortDateString();
+            this.BottomNavigationView.SelectedItemId = Resource.Id.menu_breakfast;
+            this.LoadFirstItemMenu();
+        }
+
+       
 
         private void registerServices()
         {

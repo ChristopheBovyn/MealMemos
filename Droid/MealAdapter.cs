@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Android.Gms.Tasks;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -14,6 +15,7 @@ namespace MealMemos.Droid
     {
         public List<string> dishes = new List<string>();
         public string Identifier = String.Empty;
+        private string dateString = MainActivity.mealDay.Date.ToString("yyyy-MM-dd");
         public MealAdapter(List<string> dishes, string identifier)
         {
             this.dishes = dishes;
@@ -59,7 +61,8 @@ namespace MealMemos.Droid
                 map.Put("dish" + (i + 1), this.dishes[i]);
             }
             FirebaseFirestore db = FirebaseFirestore.GetInstance(MainActivity.firebaseApp);
-            DocumentReference document = db.Collection("meals").Document(this.Identifier);
+            Console.WriteLine("date : "+this.dateString);
+            DocumentReference document = db.Collection("meals").Document("defaultUser").Collection(this.dateString).Document(this.Identifier);
             document.Set(map);
         }
 
@@ -67,7 +70,7 @@ namespace MealMemos.Droid
         private void LoadDishes()
         {
             FirebaseFirestore db = FirebaseFirestore.GetInstance(MainActivity.firebaseApp);
-            db.Collection("meals").Get().AddOnSuccessListener(this);
+            db.Collection("meals").Document("defaultUser").Collection(this.dateString).Get().AddOnSuccessListener(this);
         }
 
         public void OnSuccess(Java.Lang.Object result)
@@ -88,6 +91,10 @@ namespace MealMemos.Droid
                         break;
                     }
                 }
+            }
+            else
+            {
+                
             }
         }
     }
