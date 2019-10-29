@@ -68,7 +68,7 @@ namespace MealMemos.Droid
             {
                 this.current_date.Text = time.ToShortDateString();
                 mealDay = time;
-                this.BottomNavigationView.SelectedItemId = Resource.Id.menu_breakfast;
+                this.LoadFragment(this.BottomNavigationView.SelectedItemId);
             });
             frag.Show(FragmentManager, DatePickerFragment.TAG);
             
@@ -78,16 +78,14 @@ namespace MealMemos.Droid
         {
             mealDay = mealDay.AddDays(-1);
             current_date.Text = mealDay.ToShortDateString();
-            this.BottomNavigationView.SelectedItemId = Resource.Id.menu_breakfast;
-            this.LoadFirstItemMenu();
+            this.LoadFragment(this.BottomNavigationView.SelectedItemId);
         }
 
         private void nextDay(object sender, EventArgs e)
         {
             mealDay = mealDay.AddDays(1);
             current_date.Text = mealDay.ToShortDateString();
-            this.BottomNavigationView.SelectedItemId = Resource.Id.menu_breakfast;
-            this.LoadFirstItemMenu();
+            this.LoadFragment(this.BottomNavigationView.SelectedItemId);
         }
 
        

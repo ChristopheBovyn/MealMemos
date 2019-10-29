@@ -22,7 +22,7 @@ namespace MealMemos.Droid
 
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {
-            DateTime currently = DateTime.Now;
+            DateTime currently = MainActivity.mealDay;
             DatePickerDialog dialog = new DatePickerDialog(Activity,
                                                            this,
                                                            currently.Year,

@@ -163,10 +163,6 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="CustomPageViewController.cs" />
-    <Compile Include="CustomPageViewController.designer.cs">
-      <DependentUpon>CustomPageViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="CustomTabBarViewController.cs" />
     <Compile Include="CustomTabBarViewController.designer.cs">
       <DependentUpon>CustomTabBarViewController.cs</DependentUpon>
@@ -175,10 +171,6 @@
     <Compile Include="TableViewSource.cs" />
     <Compile Include="MealViewController.cs" />
     <Compile Include="MealViewController.designer.cs" />
-    <Compile Include="HomepageViewController.cs" />
-    <Compile Include="HomepageViewController.designer.cs">
-      <DependentUpon>HomepageViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Extensions\UIImageExtension.cs" />
     <Compile Include="CustomViewCellController.cs" />
     <Compile Include="CustomViewCellController.designer.cs">

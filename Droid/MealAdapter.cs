@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Android.Gms.Tasks;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Firebase.Firestore;
 using Java.Util;
-using Newtonsoft.Json;
-using Xamarin.Essentials;
 
 namespace MealMemos.Droid
 {
@@ -20,7 +17,6 @@ namespace MealMemos.Droid
         {
             this.dishes = dishes;
             this.LoadDishes();
-            Console.WriteLine("init adapter");
             this.Identifier = identifier;
         }
 
