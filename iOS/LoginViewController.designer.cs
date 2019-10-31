@@ -9,8 +9,8 @@ using System.CodeDom.Compiler;
 
 namespace MealMemos.iOS
 {
-	[Register ("CustomTabBarViewController")]
-	partial class CustomTabBarViewController
+	[Register ("LoginViewController")]
+	partial class LoginViewController
 	{
 		
 		void ReleaseDesignerOutlets ()

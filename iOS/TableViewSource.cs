@@ -10,17 +10,19 @@ namespace MealMemos.iOS
     public class TableViewSource : UITableViewSource
     {
         public string Identifier = string.Empty;
+        public string SourceDay;
         List<string> Items;
-        public TableViewSource(List<string> items)
+        public TableViewSource(List<string> items,string day)
         {
             this.Items = items;
+            this.SourceDay = day;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = (CustomViewCellController)tableView.DequeueReusableCell(CustomViewCellController.Identifier, indexPath);
+            var cell = tableView.DequeueReusableCell("customCell", indexPath);
             string item = Items[indexPath.Row];
-            cell.Configure(item);
+            cell.TextLabel.Text = item;
             return cell;
         }
 
@@ -68,7 +70,7 @@ namespace MealMemos.iOS
             {
                 map.Add("dish" + (i + 1), this.Items[i]);
             }
-            var doc = CrossCloudFirestore.Current.Instance.GetCollection("meals").GetDocument(this.Identifier);
+            var doc = CrossCloudFirestore.Current.Instance.GetCollection("meals").GetDocument("defaultUser").GetCollection(this.SourceDay).GetDocument(this.Identifier);
             try
             {
                 if(map.Count == 0)

@@ -57,7 +57,6 @@ namespace MealMemos.Droid
                 map.Put("dish" + (i + 1), this.dishes[i]);
             }
             FirebaseFirestore db = FirebaseFirestore.GetInstance(MainActivity.firebaseApp);
-            Console.WriteLine("date : "+this.dateString);
             DocumentReference document = db.Collection("meals").Document("defaultUser").Collection(this.dateString).Document(this.Identifier);
             document.Set(map);
         }

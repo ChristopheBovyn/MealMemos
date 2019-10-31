@@ -1,8 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using CoreGraphics;
+﻿using System.Threading.Tasks;
 using MealMemos.Interfaces;
-using MealMemos.iOS;
 using UIKit;
 
 namespace GPS.iOS

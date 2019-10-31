@@ -120,6 +120,13 @@
     <Reference Include="Mono.Android">
       <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.Android.framework\Versions\10.0.3.0\lib\xamarin.android\xbuild-frameworks\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
     </Reference>
+    <Reference Include="Firebase.Auth">
+      <HintPath>..\packages\Xamarin.Firebase.iOS.Auth.5.0.4.1\lib\Xamarin.iOS10\Firebase.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.FirebaseAuth">
+      <HintPath>..\packages\Plugin.FirebaseAuth.2.0.0\lib\xamarinios10\Plugin.FirebaseAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing.Common.dll" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -140,6 +147,7 @@
     <ImageAsset Include="Assets.xcassets\delete.imageset\baseline_delete_black_24dp.png" />
     <ImageAsset Include="Assets.xcassets\test.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\test.imageset\ic_test%401x.png" />
+    <ImageAsset Include="Assets.xcassets\applicationColor.colorset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -151,6 +159,7 @@
     <Folder Include="Assets.xcassets\collation.imageset\" />
     <Folder Include="Assets.xcassets\delete.imageset\" />
     <Folder Include="Assets.xcassets\test.imageset\" />
+    <Folder Include="Assets.xcassets\applicationColor.colorset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
@@ -163,18 +172,20 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="CustomTabBarViewController.cs" />
-    <Compile Include="CustomTabBarViewController.designer.cs">
-      <DependentUpon>CustomTabBarViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Impl\IosMealPopup.cs" />
     <Compile Include="TableViewSource.cs" />
-    <Compile Include="MealViewController.cs" />
-    <Compile Include="MealViewController.designer.cs" />
     <Compile Include="Extensions\UIImageExtension.cs" />
     <Compile Include="CustomViewCellController.cs" />
     <Compile Include="CustomViewCellController.designer.cs">
       <DependentUpon>CustomViewCellController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainViewController.cs" />
+    <Compile Include="MainViewController.designer.cs">
+      <DependentUpon>MainViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginViewController.cs" />
+    <Compile Include="LoginViewController.designer.cs">
+      <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -185,8 +196,10 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GoogleService-Info.plist" />
+    <BundleResource Include="Resources\MealMemos.iOS.entitlements" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets')" />
   <Import Project="..\packages\Plugin.CloudFirestore.2.0.0\build\Plugin.CloudFirestore.targets" Condition="Exists('..\packages\Plugin.CloudFirestore.2.0.0\build\Plugin.CloudFirestore.targets')" />
+  <Import Project="..\packages\Plugin.FirebaseAuth.2.0.0\build\Plugin.FirebaseAuth.targets" Condition="Exists('..\packages\Plugin.FirebaseAuth.2.0.0\build\Plugin.FirebaseAuth.targets')" />
 </Project>

@@ -59,4 +59,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="packages\Plugin.CloudFirestore.2.0.0\build\Plugin.CloudFirestore.targets" Condition="Exists('packages\Plugin.CloudFirestore.2.0.0\build\Plugin.CloudFirestore.targets')" />
+  <Import Project="packages\Plugin.FirebaseAuth.2.0.0\build\Plugin.FirebaseAuth.targets" Condition="Exists('packages\Plugin.FirebaseAuth.2.0.0\build\Plugin.FirebaseAuth.targets')" />
 </Project>
