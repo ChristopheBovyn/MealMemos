@@ -3,14 +3,19 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Plugin.CloudFirestore;
+using Xamarin.Essentials;
 using Plugin.FirebaseAuth;
 using UIKit;
+using Newtonsoft.Json;
+using Firebase.Auth;
+using System.Collections.Generic;
 
 namespace MealMemos.iOS
 {
+
     public partial class LoginViewController : UIViewController
     {
+        private const string userKey = "user";
         public LoginViewController(IntPtr handle) : base(handle)
         {
         }
@@ -18,19 +23,26 @@ namespace MealMemos.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            if (this.hasAlreadyCreateAccount())
+            {
+                var controller = this.Storyboard.InstantiateViewController("MainViewController") as MainViewController;
+                this.NavigationController.PushViewController(controller, true);
+            }
             this.loginBtn.TouchUpInside += LoginAsync;
             this.resetBtn.TouchUpInside += Reset;
         }
 
         private async void LoginAsync(object sender, EventArgs e)
         {
-            var controller = this.Storyboard.InstantiateViewController("MainViewController") as MainViewController;
+            
             if (this.IsValidLogin())
             {
                 var success = await this.SignInFirebaseAsync(this.emailTextView.Text, this.passTextView.Text);
 
-                if (success)
+                if (success != null)
                 {
+                    this.StoreUserInfo(success);
+                    var controller = this.Storyboard.InstantiateViewController("MainViewController") as MainViewController;
                     this.NavigationController.PushViewController(controller, true);
                 }
                 else
@@ -41,24 +53,27 @@ namespace MealMemos.iOS
             
         }
 
-        private async Task<bool> SignInFirebaseAsync(string email, string password)
+        private void StoreUserInfo(IUser user)
+        {
+            Preferences.Set(userKey, JsonConvert.SerializeObject(user));
+        }
+
+        private async Task<IUser> SignInFirebaseAsync(string email, string password)
         {
             try
             {
-                //Firebase.Auth.Auth.DefaultInstance.CreateUserAsync()
-
                 var result = await CrossFirebaseAuth.Current.Instance.CreateUserWithEmailAndPasswordAsync(email, password);
                 if (result.User != null)
                 {
-                    return true;
+                    return result.User;
                 }
             }catch (Exception e)
             {
                 Console.WriteLine(e);
-                return false;
+                return null;
             }
            
-            return false;
+            return null;
         }
 
         private bool IsValidLogin()
@@ -94,6 +109,12 @@ namespace MealMemos.iOS
             {
                 return false;
             }
+        }
+
+        private bool hasAlreadyCreateAccount()
+        {
+            var user = Preferences.Get(userKey, null);
+            return user == null ? false : true;
         }
     }
 }
