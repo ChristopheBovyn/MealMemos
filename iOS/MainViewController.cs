@@ -11,6 +11,7 @@ using MealMemos.Extensions;
 using System.Collections.Generic;
 using Plugin.CloudFirestore;
 using GPS.iOS;
+using Plugin.FirebaseAuth;
 
 namespace MealMemos.iOS
 {
@@ -119,17 +120,18 @@ namespace MealMemos.iOS
             if (this.datepicker.Hidden)
             {
                 this.datepicker.Hidden = false;
-                this.datepicker.Date = (Foundation.NSDate)this.currrentDateTime;
                 this.verticalSpace.Constant = 150;
             }
             else
             {
                 this.datepicker.Hidden = true;
-                this.currrentDateTime = (DateTime)this.datepicker.Date;
-                this.currrentDateTime = this.currrentDateTime.AddDays(1);
-                this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
-                this.resetTableView();
-                this.verticalSpace.Constant = 10;
+                if (this.currrentDateTime != (DateTime)this.datepicker.Date)
+                {
+                    this.currrentDateTime = (DateTime)this.datepicker.Date;
+                    this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
+                    this.resetTableView();
+                }
+                this.verticalSpace.Constant = 0;
             }
         }
 
@@ -163,10 +165,11 @@ namespace MealMemos.iOS
             try
             {
                 var itemTitle = this.applicationTabBar.SelectedItem.Title;
+                var user = CrossFirebaseAuth.Current.Instance.CurrentUser;
                 var document = await CrossCloudFirestore.Current
                                                         .Instance
                                                         .GetCollection("meals")
-                                                        .GetDocument("defaultUser")
+                                                        .GetDocument(user.Uid)
                                                         .GetCollection(this.DateTimeToDefaultFormat())
                                                         .GetDocument(itemTitle)
                                                         .GetDocumentAsync();

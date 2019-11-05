@@ -7,8 +7,8 @@ using Xamarin.Essentials;
 using Plugin.FirebaseAuth;
 using UIKit;
 using Newtonsoft.Json;
-using Firebase.Auth;
-using System.Collections.Generic;
+using Foundation;
+using MealMemos.Models;
 
 namespace MealMemos.iOS
 {
@@ -16,25 +16,38 @@ namespace MealMemos.iOS
     public partial class LoginViewController : UIViewController
     {
         private const string userKey = "user";
+
         public LoginViewController(IntPtr handle) : base(handle)
         {
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+            this.emailTextView.BecomeFirstResponder();
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            if (this.hasAlreadyCreateAccount())
+            if (this.HasAlreadyCreateAccount())
             {
                 var controller = this.Storyboard.InstantiateViewController("MainViewController") as MainViewController;
                 this.NavigationController.PushViewController(controller, true);
             }
             this.loginBtn.TouchUpInside += LoginAsync;
+            this.emailTextView.ResignFirstResponder();
+            this.scrollView.Scrolled += (object sender, EventArgs e) =>
+            {
+                this.scrollView.EndEditing(true);
+            };
+
+            this.InitTextFields();
             this.resetBtn.TouchUpInside += Reset;
         }
 
         private async void LoginAsync(object sender, EventArgs e)
         {
-            
             if (this.IsValidLogin())
             {
                 var success = await this.SignInFirebaseAsync(this.emailTextView.Text, this.passTextView.Text);
@@ -50,7 +63,6 @@ namespace MealMemos.iOS
                     Console.WriteLine("Mealmemos : LoginViewController : Erreur creation compte");
                 }
             }
-            
         }
 
         private void StoreUserInfo(IUser user)
@@ -67,12 +79,13 @@ namespace MealMemos.iOS
                 {
                     return result.User;
                 }
-            }catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return null;
             }
-           
+
             return null;
         }
 
@@ -111,10 +124,47 @@ namespace MealMemos.iOS
             }
         }
 
-        private bool hasAlreadyCreateAccount()
+        private bool HasAlreadyCreateAccount()
         {
             var user = Preferences.Get(userKey, null);
             return user == null ? false : true;
+        }
+
+        private void InitTextFields()
+        {
+            this.emailTextView.ReturnKeyType = UIReturnKeyType.Next;
+            this.passTextView.ReturnKeyType = UIReturnKeyType.Next;
+            this.confirmTextView.ReturnKeyType = UIReturnKeyType.Done;
+
+            this.emailTextView.Text = "test@gmail.com";
+            this.passTextView.Text = "test123";
+            this.confirmTextView.Text = "test123";
+
+            this.emailTextView.ShouldReturn = (textfield) => {
+                textfield.ResignFirstResponder();
+                this.passTextView.BecomeFirstResponder();
+                return true;
+            };
+            this.passTextView.ShouldReturn = (textfield) => {
+                textfield.ResignFirstResponder();
+                this.confirmTextView.BecomeFirstResponder();
+                return true;
+            };
+
+            this.confirmTextView.ShouldReturn = (textfield) => {
+                textfield.ResignFirstResponder();
+                return true;
+            };
+
+            this.confirmTextView.EditingDidBegin += (object sender, EventArgs e) =>
+            {
+                this.emailTopConstraint.Constant -= 50;
+            };
+
+            this.confirmTextView.EditingDidEnd += (object sender, EventArgs e) =>
+            {
+                this.emailTopConstraint.Constant += 50;
+            };
         }
     }
 }

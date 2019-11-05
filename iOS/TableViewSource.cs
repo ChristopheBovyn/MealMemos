@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Foundation;
 using Plugin.CloudFirestore;
+using Plugin.FirebaseAuth;
 using UIKit;
 
 
@@ -70,7 +71,12 @@ namespace MealMemos.iOS
             {
                 map.Add("dish" + (i + 1), this.Items[i]);
             }
-            var doc = CrossCloudFirestore.Current.Instance.GetCollection("meals").GetDocument("defaultUser").GetCollection(this.SourceDay).GetDocument(this.Identifier);
+            var user = CrossFirebaseAuth.Current.Instance.CurrentUser;
+            var doc = CrossCloudFirestore.Current.
+                Instance.GetCollection("meals").
+                GetDocument(user.Uid).
+                GetCollection(this.SourceDay).
+                GetDocument(this.Identifier);
             try
             {
                 if(map.Count == 0)

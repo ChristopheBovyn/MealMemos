@@ -16,7 +16,13 @@ namespace MealMemos.iOS
 		UIKit.UITextField confirmTextView { get; set; }
 
 		[Outlet]
+		UIKit.UIView ContentView { get; set; }
+
+		[Outlet]
 		UIKit.UITextField emailTextView { get; set; }
+
+		[Outlet]
+		UIKit.NSLayoutConstraint emailTopConstraint { get; set; }
 
 		[Outlet]
 		UIKit.UIButton loginBtn { get; set; }
@@ -26,22 +32,30 @@ namespace MealMemos.iOS
 
 		[Outlet]
 		UIKit.UIButton resetBtn { get; set; }
+
+		[Outlet]
+		UIKit.UIScrollView scrollView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (loginBtn != null) {
-				loginBtn.Dispose ();
-				loginBtn = null;
-			}
-
-			if (resetBtn != null) {
-				resetBtn.Dispose ();
-				resetBtn = null;
-			}
-
 			if (confirmTextView != null) {
 				confirmTextView.Dispose ();
 				confirmTextView = null;
+			}
+
+			if (ContentView != null) {
+				ContentView.Dispose ();
+				ContentView = null;
+			}
+
+			if (emailTextView != null) {
+				emailTextView.Dispose ();
+				emailTextView = null;
+			}
+
+			if (loginBtn != null) {
+				loginBtn.Dispose ();
+				loginBtn = null;
 			}
 
 			if (passTextView != null) {
@@ -49,9 +63,19 @@ namespace MealMemos.iOS
 				passTextView = null;
 			}
 
-			if (emailTextView != null) {
-				emailTextView.Dispose ();
-				emailTextView = null;
+			if (resetBtn != null) {
+				resetBtn.Dispose ();
+				resetBtn = null;
+			}
+
+			if (scrollView != null) {
+				scrollView.Dispose ();
+				scrollView = null;
+			}
+
+			if (emailTopConstraint != null) {
+				emailTopConstraint.Dispose ();
+				emailTopConstraint = null;
 			}
 		}
 	}

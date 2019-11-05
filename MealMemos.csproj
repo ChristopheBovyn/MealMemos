@@ -34,6 +34,7 @@
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Interfaces\IMealPopup.cs" />
     <Compile Include="Models\MealItem.cs" />
+    <Compile Include="Models\Meal.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
