@@ -1,5 +1,6 @@
-﻿using Foundation;
-using Plugin.CloudFirestore;
+﻿using Firebase.CloudFirestore;
+using Firebase.Core;
+using Foundation;
 using UIKit;
 
 namespace MealMemos.iOS
@@ -10,7 +11,6 @@ namespace MealMemos.iOS
     public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
-
         public override UIWindow Window
         {
             get;
@@ -21,15 +21,14 @@ namespace MealMemos.iOS
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
-            Firebase.Core.App.Configure();
-
-            CrossCloudFirestore.Current.Instance.FirestoreSettings = new FirestoreSettings
-            {
-                AreTimestampsInSnapshotsEnabled = true,
-            };
+            App.Configure();
+            FirestoreSettings settings = new FirestoreSettings();
+            settings.TimestampsInSnapshotsEnabled = true;
+            Firestore.SharedInstance.Settings = settings;
             return true;
         } 
 
+        
         public override void OnResignActivation(UIApplication application)
         {
             // Invoked when the application is about to move from active to inactive state.

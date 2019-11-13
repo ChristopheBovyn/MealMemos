@@ -5,7 +5,7 @@
 	<key>CFBundleName</key>
 	<string>MealMemos</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.cbovyn.MealMemos</string>
+	<string>com.cbovyn.mealmemosIOS</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

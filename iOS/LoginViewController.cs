@@ -4,11 +4,9 @@ using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
-using Plugin.FirebaseAuth;
 using UIKit;
 using Newtonsoft.Json;
-using Foundation;
-using MealMemos.Models;
+using Firebase.Auth;
 
 namespace MealMemos.iOS
 {
@@ -65,16 +63,18 @@ namespace MealMemos.iOS
             }
         }
 
-        private void StoreUserInfo(IUser user)
+        private void StoreUserInfo(User user)
         {
-            Preferences.Set(userKey, JsonConvert.SerializeObject(user));
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            Preferences.Set(userKey, JsonConvert.SerializeObject(user,settings));
         }
 
-        private async Task<IUser> SignInFirebaseAsync(string email, string password)
+        private async Task<User> SignInFirebaseAsync(string email, string password)
         {
             try
             {
-                var result = await CrossFirebaseAuth.Current.Instance.CreateUserWithEmailAndPasswordAsync(email, password);
+                var result = await Auth.DefaultInstance.CreateUserAsync(email, password);
                 if (result.User != null)
                 {
                     return result.User;

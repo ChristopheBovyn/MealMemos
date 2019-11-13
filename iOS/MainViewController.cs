@@ -9,9 +9,9 @@ using UIImageExtension;
 using UIKit;
 using MealMemos.Extensions;
 using System.Collections.Generic;
-using Plugin.CloudFirestore;
 using GPS.iOS;
-using Plugin.FirebaseAuth;
+using Firebase.Auth;
+using Firebase.CloudFirestore;
 
 namespace MealMemos.iOS
 {
@@ -44,7 +44,7 @@ namespace MealMemos.iOS
             this.SetTabBarItems();
             this.LoadDishesAsync().SafeFireAndForget();
 
-            this.viewSource = new TableViewSource(new List<string>(),this.DateTimeToDefaultFormat());
+            this.viewSource = new TableViewSource(new List<string>(), this.DateTimeToDefaultFormat());
             this.viewSource.Identifier = this.applicationTabBar.SelectedItem.Title;
             this.mealTableView.Source = this.viewSource;
 
@@ -56,7 +56,7 @@ namespace MealMemos.iOS
 
         private void SwitchMeal(object sender, UITabBarItemEventArgs e)
         {
-            this.viewSource = new TableViewSource(new List<string>(),this.DateTimeToDefaultFormat());
+            this.viewSource = new TableViewSource(new List<string>(), this.DateTimeToDefaultFormat());
             this.viewSource.Identifier = this.applicationTabBar.SelectedItem.Title;
             this.mealTableView.Source = this.viewSource;
             this.LoadDishesAsync().SafeFireAndForget();
@@ -165,17 +165,16 @@ namespace MealMemos.iOS
             try
             {
                 var itemTitle = this.applicationTabBar.SelectedItem.Title;
-                var user = CrossFirebaseAuth.Current.Instance.CurrentUser;
-                var document = await CrossCloudFirestore.Current
-                                                        .Instance
-                                                        .GetCollection("meals")
-                                                        .GetDocument(user.Uid)
-                                                        .GetCollection(this.DateTimeToDefaultFormat())
-                                                        .GetDocument(itemTitle)
-                                                        .GetDocumentAsync();
-                foreach (string dish in document.Data.Values)
+                var user = Auth.DefaultInstance.CurrentUser;
+                var document = await Firestore.SharedInstance
+                                              .GetCollection("meals")
+                                              .WhereEqualsTo("user",user.Uid)
+                                              .WhereEqualsTo("date",this.DateTimeToDefaultFormat())
+                                              .LimitedTo(1)
+                                              .GetDocumentsAsync();
+                foreach(var current in document.Documents)
                 {
-                    this.viewSource.AddElement(dish);
+                    //this.viewSource.AddElement(dish);
                 }
                 this.mealTableView.ReloadData();
             }
