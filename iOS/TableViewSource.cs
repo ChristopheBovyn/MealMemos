@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Firebase.Auth;
+using Firebase.CloudFirestore;
 using Foundation;
-using Plugin.CloudFirestore;
-using Plugin.FirebaseAuth;
+using MealMemos.Models;
 using UIKit;
 
 
@@ -12,11 +13,18 @@ namespace MealMemos.iOS
     {
         public string Identifier = string.Empty;
         public string SourceDay;
+        private string documentId = string.Empty;
+        private const string collection = "meals";
         List<string> Items;
-        public TableViewSource(List<string> items,string day)
+        public TableViewSource(List<string> items, string day)
         {
             this.Items = items;
             this.SourceDay = day;
+        }
+
+        public void SetDocumentId(string id)
+        {
+            this.documentId = id;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -46,7 +54,7 @@ namespace MealMemos.iOS
                     this.Items.RemoveAt(indexPath.Row);
                     // delete the row from the table
                     tableView.DeleteRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None);
-                    this.Save();
+                    //this.Save();
                     break;
                 case UITableViewCellEditingStyle.None:
                     Console.WriteLine("CommitEditingStyle:None called");
@@ -66,32 +74,25 @@ namespace MealMemos.iOS
 
         public void Save()
         {
-            var map = new Dictionary<string, Object>();
-            for (int i = 0; i < this.Items.Count; i++)
-            {
-                map.Add("dish" + (i + 1), this.Items[i]);
-            }
-            var user = CrossFirebaseAuth.Current.Instance.CurrentUser;
-            var doc = CrossCloudFirestore.Current.
-                Instance.GetCollection("meals").
-                GetDocument(user.Uid).
-                GetCollection(this.SourceDay).
-                GetDocument(this.Identifier);
-            try
-            {
-                if(map.Count == 0)
-                {
-                    doc.DeleteDocumentAsync();
-                }else
-                {
-                    doc.SetDataAsync(map);
-                }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
-            }
-            
+            ////var dictionary = new Dictionary<string, object>();
+            //var user = Auth.DefaultInstance.CurrentUser;
+            //var dishes = new List<string>();
+            //for (int i = 0; i < this.Items.Count; i++)
+            //{
+            //    dishes.Add(this.Items[i]);
+            //}
+            ////dictionary.Add(MealDocument.UserKey, user.Uid);
+            ////dictionary.Add(MealDocument.DateKey, this.SourceDay);
+            ////dictionary.Add(this.Identifier, dishes);
+            //DocumentReference doc;
+            //var mealDictionary = new NSDictionary<NSString, NSObject>();
+            //mealDictionary.SetValueForKey(user, (NSString)MealDocument.UserKey);
+            //mealDictionary.SetValueForKey(NSObject.FromObject(this.SourceDay), (NSString)MealDocument.DateKey);
+            //mealDictionary.SetValueForKey(NSObject.FromObject(dishes), (NSString)this.Identifier);
+            //doc = this.documentId == string.Empty ? Firestore.SharedInstance.GetCollection(collection).CreateDocument()
+            //    : Firestore.SharedInstance.GetCollection(collection).GetDocument(this.documentId);
+            //if (this.documentId == string.Empty) this.documentId = doc.Id;
+            //doc.SetDataAsync(mealDictionary);
         }
     }
 }

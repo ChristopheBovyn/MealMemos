@@ -1,5 +1,5 @@
-﻿using Foundation;
-using Plugin.CloudFirestore;
+﻿using Firebase.Core;
+using Foundation;
 using UIKit;
 
 namespace MealMemos.iOS
@@ -21,12 +21,7 @@ namespace MealMemos.iOS
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
-            Firebase.Core.App.Configure();
-
-            CrossCloudFirestore.Current.Instance.FirestoreSettings = new FirestoreSettings
-            {
-                AreTimestampsInSnapshotsEnabled = true,
-            };
+            //App.Configure();
             return true;
         } 
 

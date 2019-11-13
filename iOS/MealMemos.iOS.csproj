@@ -29,6 +29,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignProvision>iOS Team Provisioning Profile: com.cbovyn.mealmemosIOS</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>pdbonly</DebugType>
@@ -111,24 +112,14 @@
       <HintPath>..\packages\System.Reactive.4.0.0\lib\netstandard2.0\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="Firebase.Core">
-      <HintPath>..\packages\Xamarin.Firebase.iOS.Core.5.1.3\lib\Xamarin.iOS10\Firebase.Core.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Firebase.iOS.Core.6.1.0\lib\xamarinios10\Firebase.Core.dll</HintPath>
     </Reference>
     <Reference Include="Firebase.CloudFirestore">
-      <HintPath>..\packages\Xamarin.Firebase.iOS.CloudFirestore.0.13.3\lib\Xamarin.iOS10\Firebase.CloudFirestore.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.CloudFirestore">
-      <HintPath>..\packages\Plugin.CloudFirestore.2.0.0\lib\xamarinios10\Plugin.CloudFirestore.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Android">
-      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.Android.framework\Versions\10.0.3.0\lib\xamarin.android\xbuild-frameworks\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Firebase.iOS.CloudFirestore.1.4.2\lib\xamarinios10\Firebase.CloudFirestore.dll</HintPath>
     </Reference>
     <Reference Include="Firebase.Auth">
-      <HintPath>..\packages\Xamarin.Firebase.iOS.Auth.5.0.4.1\lib\Xamarin.iOS10\Firebase.Auth.dll</HintPath>
+      <HintPath>..\packages\Xamarin.Firebase.iOS.Auth.6.2.1\lib\xamarinios10\Firebase.Auth.dll</HintPath>
     </Reference>
-    <Reference Include="Plugin.FirebaseAuth">
-      <HintPath>..\packages\Plugin.FirebaseAuth.2.0.0\lib\xamarinios10\Plugin.FirebaseAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing.Common.dll" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -197,11 +188,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="GoogleService-Info.plist" />
     <BundleResource Include="Resources\MealMemos.iOS.entitlements" />
+    <BundleResource Include="GoogleService-Info.plist" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.11\build\Xamarin.Build.Download.targets')" />
-  <Import Project="..\packages\Plugin.CloudFirestore.2.0.0\build\Plugin.CloudFirestore.targets" Condition="Exists('..\packages\Plugin.CloudFirestore.2.0.0\build\Plugin.CloudFirestore.targets')" />
-  <Import Project="..\packages\Plugin.FirebaseAuth.2.0.0\build\Plugin.FirebaseAuth.targets" Condition="Exists('..\packages\Plugin.FirebaseAuth.2.0.0\build\Plugin.FirebaseAuth.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.iOS.Core.6.1.0\build\Xamarin.Firebase.iOS.Core.targets" Condition="Exists('..\packages\Xamarin.Firebase.iOS.Core.6.1.0\build\Xamarin.Firebase.iOS.Core.targets')" />
 </Project>
