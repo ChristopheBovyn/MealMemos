@@ -5,10 +5,10 @@ namespace MealMemos.Models
 {
     public class MealDocument
     {
-        List<string> Breakfast = new List<string>();
-        List<string> Diner = new List<string>();
-        List<string> Souper = new List<string>();
-        List<string> Collation = new List<string>();
+        public List<string> Breakfast{ get; set; } = new List<string>();
+        public List<string> Diner{ get; set; } = new List<string>();
+        public List<string> Souper{ get; set; } = new List<string>();
+        public List<string> Collation{ get; set; } = new List<string>();
         public static string UserKey = "user";
         public static string DateKey = "date";
         private String date;
@@ -21,26 +21,23 @@ namespace MealMemos.Models
 
         public MealDocument() { }
 
-        public static MealDocument DataToMealDocument(IDictionary<string, object> data)
+        public void SetMeal(List<string> mealContent, string mealTitle)
         {
-            MealDocument mealDocument = new MealDocument();
-            foreach (var element in data)
+            switch (mealTitle)
             {
-                switch (element.Key)
-                {
-                    case "user":
-                        mealDocument.user = (string)element.Value;
-                        break;
-                    case "date":
-                        mealDocument.date = (string)element.Value;
-                        break;
-                    case "Breakfast":
-                        var test = element.Value;
-                        break;
-
-                }
+                case "Breakfast":
+                    this.Breakfast.AddRange(mealContent);
+                    break;
+                case "Diner":
+                    this.Diner.AddRange(mealContent);
+                    break;
+                case "Souper":
+                    this.Souper.AddRange(mealContent);
+                    break;
+                case "Collation":
+                    this.Collation.AddRange(mealContent);
+                    break;
             }
-            return mealDocument;
         }
     }
 }

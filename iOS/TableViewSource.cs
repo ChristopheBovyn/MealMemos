@@ -13,8 +13,8 @@ namespace MealMemos.iOS
     {
         public string Identifier = string.Empty;
         public string SourceDay;
-        List<string> Items;
-        private string documentId = String.Empty;
+        public List<string> Items { get; set; }
+        public string DocumentId { get; set; } = String.Empty;
         private readonly string collection = "meals";
 
         public TableViewSource(List<string> items,string day)
@@ -50,7 +50,7 @@ namespace MealMemos.iOS
                     this.Items.RemoveAt(indexPath.Row);
                     // delete the row from the table
                     tableView.DeleteRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.None);
-                    //this.Save();
+                    this.Save();
                     break;
                 case UITableViewCellEditingStyle.None:
                     Console.WriteLine("CommitEditingStyle:None called");
@@ -79,17 +79,18 @@ namespace MealMemos.iOS
                 dishes.Add(NSObject.FromObject(this.Items[i]));
                 
             }
-            
             NSString userNS = new NSString(MealDocument.UserKey);
             NSString dateNS = new NSString(MealDocument.DateKey);
-            NSString meal = new NSString(this.Identifier.ToLower());
+            NSString meal = new NSString(this.Identifier);
             mealDictionary.SetValueForKey(new NSString(user.Uid), userNS);
             mealDictionary.SetValueForKey(NSObject.FromObject(this.SourceDay), dateNS);
             mealDictionary.SetValueForKey(dishes, meal);
-            NSDictionary<NSString,NSObject> dictio = new NSDictionary<NSString, NSObject>(mealDictionary.Keys, mealDictionary.Values);
-            doc = this.documentId == string.Empty ? Firestore.SharedInstance.GetCollection(collection).CreateDocument()
-                : Firestore.SharedInstance.GetCollection(collection).GetDocument(this.documentId);
-            if (this.documentId == string.Empty) this.documentId = doc.Id;
+            NSDictionary<NSString,NSObject> dictio =
+                new NSDictionary<NSString, NSObject>(mealDictionary.Keys, mealDictionary.Values);
+            doc = this.DocumentId == string.Empty
+                ? Firestore.SharedInstance.GetCollection(collection).CreateDocument()
+                : Firestore.SharedInstance.GetCollection(collection).GetDocument(this.DocumentId);
+            if (this.DocumentId == string.Empty) this.DocumentId = doc.Id;
             doc.SetDataAsync(dictio);
        
         }

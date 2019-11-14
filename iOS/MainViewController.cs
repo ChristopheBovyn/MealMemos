@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using GPS.iOS;
 using Firebase.Auth;
 using Firebase.CloudFirestore;
+using Foundation;
+using MealMemos.Models;
 
 namespace MealMemos.iOS
 {
@@ -19,6 +21,7 @@ namespace MealMemos.iOS
     {
         private TableViewSource viewSource;
         private DateTime currrentDateTime = DateTime.Today;
+        private MealDocument mealDocument = new MealDocument();
 
         public MainViewController(IntPtr handle) : base(handle)
         {
@@ -59,16 +62,13 @@ namespace MealMemos.iOS
             this.viewSource = new TableViewSource(new List<string>(), this.DateTimeToDefaultFormat());
             this.viewSource.Identifier = this.applicationTabBar.SelectedItem.Title;
             this.mealTableView.Source = this.viewSource;
-            this.LoadDishesAsync().SafeFireAndForget();
+            this.resetTableView();
             this.mealTableView.ReloadData();
         }
 
         private void resetTableView()
         {
-            this.viewSource = new TableViewSource(new List<string>(), this.DateTimeToDefaultFormat());
-            this.viewSource.Identifier = this.applicationTabBar.SelectedItem.Title;
-            this.mealTableView.Source = this.viewSource;
-            this.LoadDishesAsync().SafeFireAndForget();
+            this.SetViewSourceData();
             this.mealTableView.ReloadData();
         }
 
@@ -81,6 +81,7 @@ namespace MealMemos.iOS
         {
             this.currrentDateTime = this.currrentDateTime.AddDays(-1);
             this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
+            this.LoadDishesAsync().SafeFireAndForget();
             this.resetTableView();
         }
 
@@ -88,6 +89,7 @@ namespace MealMemos.iOS
         {
             this.currrentDateTime = this.currrentDateTime.AddDays(1);
             this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
+            this.LoadDishesAsync().SafeFireAndForget();
             this.resetTableView();
         }
 
@@ -129,7 +131,7 @@ namespace MealMemos.iOS
                 {
                     this.currrentDateTime = (DateTime)this.datepicker.Date;
                     this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
-                    this.resetTableView();
+                    this.LoadDishesAsync().SafeFireAndForget();
                 }
                 this.verticalSpace.Constant = 0;
             }
@@ -172,16 +174,76 @@ namespace MealMemos.iOS
                                               .WhereEqualsTo("date",this.DateTimeToDefaultFormat())
                                               .LimitedTo(1)
                                               .GetDocumentsAsync();
-                foreach(var current in document.Documents)
+                foreach (DocumentSnapshot current in document.Documents)
                 {
-                    //this.viewSource.AddElement(dish);
+                    this.SetMealDocumentFromDocument(current);
+                    this.viewSource.DocumentId = current.Id;
                 }
+                this.SetViewSourceData();
                 this.mealTableView.ReloadData();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
+        }
+
+        private void SetViewSourceData()
+        {
+            switch (this.applicationTabBar.SelectedItem.Title)
+            {
+                case "Breakfast":
+                    this.viewSource.Items = this.mealDocument.Breakfast;
+                    break;
+                case "Diner":
+                    this.viewSource.Items = this.mealDocument.Diner;
+                    break;
+                case "Souper":
+                    this.viewSource.Items = this.mealDocument.Souper;
+                    break;
+                case "Collation":
+                    this.viewSource.Items = this.mealDocument.Collation;
+                    break;
+            }
+        }
+
+        private void SetMealDocumentFromDocument(DocumentSnapshot document)
+        {
+            string date = document?.Data[MealDocument.DateKey]?.ToString() ?? string.Empty;
+            string userId = document?.Data[MealDocument.UserKey]?.ToString() ?? string.Empty;
+            this.mealDocument = new MealDocument(userId, date);
+            var listItemTitle = this.GetItemsTitle();
+            
+            foreach (var data in document?.Data)
+            {
+                var mealContent = new List<string>();
+                if (listItemTitle.Contains(data.Key?.ToString()))
+                {
+                    if (data.Value is NSMutableArray value)
+                    {
+                        for (int i = 0; i < (int)value.Count; i++)
+                        {
+                            string test = value.GetItem<NSString>((nuint)i).ToString();
+                            mealContent.Add(test);
+                        }
+
+                        this.mealDocument.SetMeal(mealContent, data.Key?.ToString());
+                    }
+                    if (data.Key?.ToString() == this.applicationTabBar.SelectedItem.Title)
+                        this.viewSource.Items = mealContent;
+                }
+            }
+        }
+
+        private List<string> GetItemsTitle()
+        {
+            List<string> itemTitles = new List<string>();
+            foreach (var item in this.applicationTabBar.Items)
+            {
+                itemTitles.Add(item.Title);
+            }
+            return itemTitles;
+            
         }
 
         private void registerServices()
