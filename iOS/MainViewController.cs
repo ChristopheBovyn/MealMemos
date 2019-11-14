@@ -14,14 +14,15 @@ using Firebase.Auth;
 using Firebase.CloudFirestore;
 using Foundation;
 using MealMemos.Models;
+using System.Linq;
 
 namespace MealMemos.iOS
 {
     public partial class MainViewController : UIViewController
     {
         private TableViewSource viewSource;
-        private DateTime currrentDateTime = DateTime.Today;
-        private MealDocument mealDocument = new MealDocument();
+        private DateTime currrentDateTime = DateTime.UtcNow;
+        private MealDocument mealDocument;
 
         public MainViewController(IntPtr handle) : base(handle)
         {
@@ -31,30 +32,41 @@ namespace MealMemos.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-            this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
-            this.currentDateBtn.TouchUpInside += OpenDatePicker;
             this.registerServices();
+            this.SetLayouts();
+            this.SetViewsAction();
+            this.SetTabBarItems();
+            this.InitData();
+        }
+
+        private void SetLayouts()
+        {
+            this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
             this.mealTableView.TranslatesAutoresizingMaskIntoConstraints = false;
             this.mealTableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
             this.mealTableView.SetEditing(true, true);
-
             this.applicationTabBar.BackgroundColor = UIColor.FromName("applicationColor");
-
             this.addDishBtn.Layer.CornerRadius = this.addDishBtn.Frame.Width / 2;
-            this.addDishBtn.TouchUpInside += this.AddDishAction;
+        }
 
-            this.SetTabBarItems();
-            this.LoadDishesAsync().SafeFireAndForget();
-
-            this.viewSource = new TableViewSource(new List<string>(), this.DateTimeToDefaultFormat());
-            this.viewSource.Identifier = this.applicationTabBar.SelectedItem.Title;
-            this.mealTableView.Source = this.viewSource;
-
+        private void SetViewsAction()
+        {
             this.applicationTabBar.ItemSelected += SwitchMeal;
-
             this.previousBtn.TouchUpInside += previousAction;
             this.nextBtn.TouchUpInside += nextAction;
+            this.currentDateBtn.TouchUpInside += OpenDatePicker;
+            this.addDishBtn.TouchUpInside += AddDishAction;
+        }
+
+        private void InitData()
+        {
+            this.viewSource = new TableViewSource(new List<string>(), this.DateTimeToDefaultFormat());
+            this.viewSource.Identifier = this.applicationTabBar.SelectedItem.Title;
+            this.datepicker.Mode = UIDatePickerMode.Date;
+            this.datepicker.SetDate((NSDate)this.currrentDateTime, false);
+            this.mealTableView.Source = this.viewSource;
+            this.mealDocument = new MealDocument();
+            this.LoadDishesAsync().SafeFireAndForget();
         }
 
         private void SwitchMeal(object sender, UITabBarItemEventArgs e)
@@ -66,6 +78,58 @@ namespace MealMemos.iOS
             this.mealTableView.ReloadData();
         }
 
+        private void AddDishAction(object sender, EventArgs e)
+        {
+            this.OpenPopup().SafeFireAndForget();
+        }
+
+        #region actions
+
+        private void previousAction(object sender, EventArgs e)
+        {
+            this.currrentDateTime = this.currrentDateTime.AddDays(-1);
+            this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
+            this.InitData();
+            this.CloseDatePicker();
+            this.resetTableView();
+        }
+
+        private void nextAction(object sender, EventArgs e)
+        {
+            this.currrentDateTime = this.currrentDateTime.AddDays(1);
+            this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
+            this.InitData();
+            this.CloseDatePicker();
+            this.resetTableView();
+        }
+
+        private void CloseDatePicker()
+        {
+            this.datepicker.Hidden = true;
+            this.verticalSpace.Constant = 0;
+        }
+
+        private void OpenDatePicker(object sender, EventArgs e)
+        {
+            if (this.datepicker.Hidden)
+            {
+                this.datepicker.Hidden = false;
+                this.verticalSpace.Constant = 150;
+            }
+            else
+            {
+                if (this.currrentDateTime.Date != (DateTime)this.datepicker.Date)
+                {
+                    this.currrentDateTime = (DateTime)this.datepicker.Date;
+                    this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
+                    this.LoadDishesAsync().SafeFireAndForget();
+                }
+                this.CloseDatePicker();
+            }
+        }
+
+        #endregion actions
+
         private void resetTableView()
         {
             this.SetViewSourceData();
@@ -75,22 +139,6 @@ namespace MealMemos.iOS
         private string DateTimeToDefaultFormat()
         {
             return this.currrentDateTime.Date.ToString("yyyy-MM-dd");
-        }
-
-        private void previousAction(object sender, EventArgs e)
-        {
-            this.currrentDateTime = this.currrentDateTime.AddDays(-1);
-            this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
-            this.LoadDishesAsync().SafeFireAndForget();
-            this.resetTableView();
-        }
-
-        private void nextAction(object sender, EventArgs e)
-        {
-            this.currrentDateTime = this.currrentDateTime.AddDays(1);
-            this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
-            this.LoadDishesAsync().SafeFireAndForget();
-            this.resetTableView();
         }
 
         private void SetTabBarItems()
@@ -116,32 +164,7 @@ namespace MealMemos.iOS
 
         }
 
-        private void OpenDatePicker(object sender, EventArgs e)
-        {
-            this.datepicker.Mode = UIDatePickerMode.Date;
-            if (this.datepicker.Hidden)
-            {
-                this.datepicker.Hidden = false;
-                this.verticalSpace.Constant = 150;
-            }
-            else
-            {
-                this.datepicker.Hidden = true;
-                if (this.currrentDateTime != (DateTime)this.datepicker.Date)
-                {
-                    this.currrentDateTime = (DateTime)this.datepicker.Date;
-                    this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
-                    this.LoadDishesAsync().SafeFireAndForget();
-                }
-                this.verticalSpace.Constant = 0;
-            }
-        }
-
-        private void AddDishAction(object sender, EventArgs e)
-        {
-            this.OpenPopup().SafeFireAndForget();
-        }
-
+        #region Task
         private async Task OpenPopup()
         {
             var result = await SimpleIoc.Default.GetInstance<IMealPopup>().OpenPopupWithResult();
@@ -155,23 +178,17 @@ namespace MealMemos.iOS
             }
         }
 
-        private void SetDish(string dishValue)
-        {
-            this.viewSource.AddElement(dishValue);
-            this.mealTableView.ReloadData();
-            this.viewSource.Save();
-        }
-
         private async Task LoadDishesAsync()
         {
             try
             {
                 var itemTitle = this.applicationTabBar.SelectedItem.Title;
+                this.viewSource.Items = new List<string>();
                 var user = Auth.DefaultInstance.CurrentUser;
                 var document = await Firestore.SharedInstance
                                               .GetCollection("meals")
-                                              .WhereEqualsTo("user",user.Uid)
-                                              .WhereEqualsTo("date",this.DateTimeToDefaultFormat())
+                                              .WhereEqualsTo("user", user.Uid)
+                                              .WhereEqualsTo("date", this.DateTimeToDefaultFormat())
                                               .LimitedTo(1)
                                               .GetDocumentsAsync();
                 foreach (DocumentSnapshot current in document.Documents)
@@ -180,12 +197,21 @@ namespace MealMemos.iOS
                     this.viewSource.DocumentId = current.Id;
                 }
                 this.SetViewSourceData();
+                this.mealTableView.Source = this.viewSource;
                 this.mealTableView.ReloadData();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
+        }
+        #endregion
+
+        private void SetDish(string dishValue)
+        {
+            this.viewSource.AddElement(dishValue);
+            this.mealTableView.ReloadData();
+            this.viewSource.Save();
         }
 
         private void SetViewSourceData()
@@ -213,7 +239,6 @@ namespace MealMemos.iOS
             string userId = document?.Data[MealDocument.UserKey]?.ToString() ?? string.Empty;
             this.mealDocument = new MealDocument(userId, date);
             var listItemTitle = this.GetItemsTitle();
-            
             foreach (var data in document?.Data)
             {
                 var mealContent = new List<string>();
@@ -226,7 +251,6 @@ namespace MealMemos.iOS
                             string test = value.GetItem<NSString>((nuint)i).ToString();
                             mealContent.Add(test);
                         }
-
                         this.mealDocument.SetMeal(mealContent, data.Key?.ToString());
                     }
                     if (data.Key?.ToString() == this.applicationTabBar.SelectedItem.Title)
