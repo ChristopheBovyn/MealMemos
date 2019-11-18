@@ -11,7 +11,6 @@ using Android.Widget;
 using Firebase;
 using MealMemos.Droid.Utils;
 using Android.Support.V7.App;
-using Android.Views;
 using System;
 
 namespace MealMemos.Droid

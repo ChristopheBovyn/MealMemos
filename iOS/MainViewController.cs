@@ -122,7 +122,7 @@ namespace MealMemos.iOS
                 {
                     this.currrentDateTime = (DateTime)this.datepicker.Date;
                     this.currentDateBtn.SetTitle(this.DateTimeToDefaultFormat(), UIControlState.Normal);
-                    this.LoadDishesAsync().SafeFireAndForget();
+                    this.InitData();
                 }
                 this.CloseDatePicker();
             }
