@@ -13,7 +13,6 @@ using Android.Support.V7.Widget;
 using System.Collections.Generic;
 using Xamarin.Essentials;
 using Newtonsoft.Json;
-using Firebase.Firestore;
 using Android.Gms.Tasks;
 using Java.Lang;
 using Java.Util;

@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textSize="20dp"
+		android:textAlignment="center"
+		android:textColor = "?attr/colorPrimary"
+		android:text="Welcome to MealMemos App !"
+		android:layout_margin="50dp"/>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+        
+		android:layout_marginLeft="20dp">
+		<TextView
+			android:layout_width="80dp"
+			android:layout_height="wrap_content"
+			android:text="Email :"/>
+		<EditText
+			android:layout_width="200dp"
+			android:id="@+id/email_edit_text"
+            android:textSize="15dp"
+			android:layout_height="wrap_content"
+			android:hint="Enter your email here"/>
+	</LinearLayout>
+	<TextView
+        android:id="@+id/email_error"
+		android:layout_width="match_parent"
+		android:layout_height="15dp"
+		android:textSize="10dp"
+		android:textColor="@android:color/holo_red_dark"
+		android:textAlignment="center"
+		android:text="Invalid email, ex : youremail@gmail.com"
+		android:layout_marginBottom="15dp"
+		android:visibility="invisible"/>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_marginLeft="20dp">
+		<TextView
+			android:layout_width="80dp"
+			android:layout_height="wrap_content"
+			android:text="Password :"
+         />
+		<EditText
+			android:layout_width="200dp"
+			android:id="@+id/password_edit_text"
+			android:layout_height="wrap_content"
+            android:textSize="15dp"
+			android:inputType="textPassword"
+			android:hint="Enter your password here"/>
+	</LinearLayout>
+	<TextView
+        android:id="@+id/password_error"
+		android:layout_width="match_parent"
+		android:layout_height="15dp"
+		android:textSize="10dp"
+		android:textColor="@android:color/holo_red_dark"
+		android:textAlignment="center"
+		android:text="Password minimum size is 6"
+		android:layout_marginBottom="10dp"
+		android:visibility="invisible"/>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_marginLeft="20dp"
+		>
+		<TextView
+			android:layout_width="80dp"
+			android:layout_height="wrap_content"
+			android:text="Confirm :" />
+		<EditText
+			android:layout_width="200dp"
+            android:textSize="15dp"
+			android:id="@+id/confirm_edit_text"
+			android:layout_height="wrap_content"
+			android:inputType="textPassword"
+			android:hint="Confirm your password here"/>
+	</LinearLayout>
+	<TextView
+        android:id="@+id/confirm_error"
+		android:layout_width="match_parent"
+		android:layout_height="15dp"
+		android:textSize="10dp"
+		android:textColor="@android:color/holo_red_dark"
+		android:textAlignment="center"
+		android:text="Password and confirm don't match"
+		android:layout_marginBottom="15dp"
+		android:visibility="invisible"/>
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Failed to create your account, retry !"
+		android:textAlignment="center"
+		android:textColor="@android:color/holo_red_dark"
+		android:visibility="invisible"/>
+	<Button
+		android:layout_width="150dp"
+		android:id="@+id/login_btn"
+		android:layout_height="wrap_content"
+		android:background="?android:attr/colorPrimary"
+		android:text="Create account"
+		android:textColor="@color/whiteColor"
+		android:layout_gravity="center_horizontal"
+		android:layout_margin="20dp"/>
+	<Button
+		android:layout_width="150dp"
+		android:id="@+id/reset_btn"
+		android:layout_height="wrap_content"
+		android:background="?android:attr/colorPrimary"
+		android:text="Reset"
+		android:textColor="@color/whiteColor"
+		android:layout_gravity="center_horizontal"
+		android:layout_margin="20dp"/>
+	<TextView
+		android:id="@+id/already_have_account"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Already have an account ? Log in"
+		android:textColor="@color/blueColor"
+		android:textAlignment="center"
+		android:layout_gravity="center_horizontal"/>
+</LinearLayout>

@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.Gms.Tasks;
+using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Widget;
+using Firebase.Auth;
 using Firebase.Firestore;
 using Java.Util;
-
+using MealMemos.Models;
 namespace MealMemos.Droid
 {
-    public class MealAdapter : RecyclerView.Adapter,IOnSuccessListener
+    public class MealAdapter : RecyclerView.Adapter, IOnSuccessListener
     {
+        private string dateString = MainActivity.mealDay.Date.ToString("yyyy-MM-dd");
+        private const string userKey = "user";
+        private const string dateKey = "date";
+        private string documentId = String.Empty;
+        private FirebaseUser user = CreateAccountActivity.FirebaseAuth.CurrentUser;
+        private MealDocument mealDocument = new MealDocument();
         public List<string> dishes = new List<string>();
         public string Identifier = String.Empty;
-        private string dateString = MainActivity.mealDay.Date.ToString("yyyy-MM-dd");
         public MealAdapter(List<string> dishes, string identifier)
         {
             this.dishes = dishes;
@@ -51,45 +59,113 @@ namespace MealMemos.Droid
 
         private void Save()
         {
-            HashMap map = new HashMap();
+            HashMap content = new HashMap();
             for (int i = 0; i < this.dishes.Count; i++)
             {
-                map.Put("dish" + (i + 1), this.dishes[i]);
+                content.Put(""+(i + 1), this.dishes[i]);
             }
-            FirebaseFirestore db = FirebaseFirestore.GetInstance(MainActivity.firebaseApp);
-            DocumentReference document = db.Collection("meals").Document("defaultUser").Collection(this.dateString).Document(this.Identifier);
-            document.Set(map);
+            HashMap meal = new HashMap();
+            meal.Put(this.Identifier, content);
+            if(this.documentId == String.Empty)
+            {
+                DocumentReference document = CreateAccountActivity.FirestoreDb
+                                                             .Collection("meals")
+                                                             .Document();
+
+                meal.Put(userKey, user.Uid);
+                meal.Put(dateKey,dateString);
+                document.Set(meal);
+            }
+            else
+            {
+                DocumentReference document = CreateAccountActivity.FirestoreDb
+                                                             .Collection("meals")
+                                                             .Document(this.documentId);
+                document.Update(this.Identifier, content);
+            }
+           
         }
 
 
         private void LoadDishes()
         {
-            FirebaseFirestore db = FirebaseFirestore.GetInstance(MainActivity.firebaseApp);
-            db.Collection("meals").Document("defaultUser").Collection(this.dateString).Get().AddOnSuccessListener(this);
+
+            CreateAccountActivity.FirestoreDb.Collection("meals").WhereEqualTo(userKey, this.user.Uid)
+                                   .WhereEqualTo(dateKey, dateString)
+                                   .Get()
+                                   .AddOnSuccessListener(this);
         }
 
         public void OnSuccess(Java.Lang.Object result)
         {
             var snapshot = (QuerySnapshot)result;
+            var meals = new List<string>
+            {
+                "Breakfast",
+                "Diner",
+                "Souper",
+                "Collation"
+            };
             if (!snapshot.IsEmpty)
             {
-                var documents = snapshot.Documents;
-                foreach (DocumentSnapshot document in documents)
+                var document = snapshot.Documents[0];
+                this.documentId = document.Id;
+                string date = document?.Data[dateKey]?.ToString() ?? string.Empty;
+                string userId = document?.Data[userKey]?.ToString() ?? string.Empty;
+                this.mealDocument = new MealDocument(userId, date);
+
+                foreach(var element in document.Data)
                 {
-                    if (document.Id == this.Identifier)
+                    var key = element.Key;
+                    if (meals.Contains(key))
                     {
-                        foreach (string dish in document.Data.Values)
+                        var listDish = new List<string>();
+                        var content = document.Get(key);
+
+                        var dictio = new JavaDictionary<string, string>(content.Handle,JniHandleOwnership.DoNotRegister);
+
+                        foreach(KeyValuePair<string,string> item in dictio)
                         {
-                            this.dishes.Add(dish);
+                            listDish.Add(item.Value);
                         }
-                        this.NotifyDataSetChanged();
-                        break;
+
+                        if(key == this.Identifier)
+                        {
+                            this.dishes = listDish;
+                            this.NotifyDataSetChanged();
+                        }
+
+                        this.mealDocument.SetMeal(listDish, key);
                     }
                 }
-            }
-            else
-            {
                 
+                //var breakfast = document.Get("Breakfast") != null ? document.Get("Breakfast") : null;
+
+
+                //foreach (var item in breakfast)
+                //{
+                //    foreach(var element in document.Data)
+                //    {
+                //        if (meals.Contains(element.Key))
+                //        {
+                //            var mealContent = new List<string>();
+                //            try
+                //            {
+                //                foreach (var item in element)
+                //                {
+                //                    mealContent.Add(item.Value);
+                //                }
+                //            }
+                //            catch(Exception ex)
+                //            {
+                //                Console.WriteLine(ex);
+                //            }
+                //            this.mealDocument.SetMeal(mealContent, element.Key?.ToString());
+                //        } 
+                //    }
+                //    this.NotifyDataSetChanged();
+                //    break;
+                //}
             }
         }
     }
