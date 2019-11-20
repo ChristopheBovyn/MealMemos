@@ -207,6 +207,9 @@
     <Reference Include="Xamarin.Firebase.Auth">
       <HintPath>..\packages\Xamarin.Firebase.Auth.60.1142.1\lib\MonoAndroid80\Xamarin.Firebase.Auth.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.CurrentActivity">
+      <HintPath>..\packages\Plugin.CurrentActivity.2.1.0.4\lib\monoandroid44\Plugin.CurrentActivity.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

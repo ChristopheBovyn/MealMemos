@@ -10,6 +10,7 @@ using Firebase.Auth;
 using GalaSoft.MvvmLight.Ioc;
 using MealMemos.Interfaces;
 using MealMemos.Droid.Impl;
+using Plugin.CurrentActivity;
 
 namespace MealMemos.Droid
 {
@@ -35,7 +36,7 @@ namespace MealMemos.Droid
             this.InitFields();
             this.InitFieldsActions();
             this.RegisterServices();
-
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
         }
 
 
@@ -154,7 +155,7 @@ namespace MealMemos.Droid
 
         private void RegisterServices()
         {
-            SimpleIoc.Default.Register<IMealPopup>(() => { return new AndroidMealPopup(this); });
+            SimpleIoc.Default.Register<IMealPopup>(() => { return new AndroidMealPopup(); });
         }
     }
 }

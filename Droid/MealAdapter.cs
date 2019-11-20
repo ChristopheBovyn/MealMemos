@@ -138,34 +138,6 @@ namespace MealMemos.Droid
                         this.mealDocument.SetMeal(listDish, key);
                     }
                 }
-                
-                //var breakfast = document.Get("Breakfast") != null ? document.Get("Breakfast") : null;
-
-
-                //foreach (var item in breakfast)
-                //{
-                //    foreach(var element in document.Data)
-                //    {
-                //        if (meals.Contains(element.Key))
-                //        {
-                //            var mealContent = new List<string>();
-                //            try
-                //            {
-                //                foreach (var item in element)
-                //                {
-                //                    mealContent.Add(item.Value);
-                //                }
-                //            }
-                //            catch(Exception ex)
-                //            {
-                //                Console.WriteLine(ex);
-                //            }
-                //            this.mealDocument.SetMeal(mealContent, element.Key?.ToString());
-                //        } 
-                //    }
-                //    this.NotifyDataSetChanged();
-                //    break;
-                //}
             }
         }
     }

@@ -5,7 +5,7 @@ using Android.Support.Design.Widget;
 using Android.Widget;
 using Android.Support.V7.App;
 using System;
-
+using Plugin.CurrentActivity;
 
 namespace MealMemos.Droid
 {
