@@ -14,7 +14,6 @@ using Firebase.Auth;
 using Firebase.CloudFirestore;
 using Foundation;
 using MealMemos.Models;
-using System.Linq;
 
 namespace MealMemos.iOS
 {
@@ -23,6 +22,7 @@ namespace MealMemos.iOS
         private TableViewSource viewSource;
         private DateTime currrentDateTime = DateTime.UtcNow;
         private MealDocument mealDocument;
+        public static string DocumentId = String.Empty;
 
         public MainViewController(IntPtr handle) : base(handle)
         {
@@ -62,6 +62,7 @@ namespace MealMemos.iOS
         {
             this.viewSource = new TableViewSource(new List<string>(), this.DateTimeToDefaultFormat());
             this.viewSource.Identifier = this.applicationTabBar.SelectedItem.Title;
+            this.viewSource.DocumentId = DocumentId;
             this.datepicker.Mode = UIDatePickerMode.Date;
             this.datepicker.SetDate((NSDate)this.currrentDateTime, false);
             this.mealTableView.Source = this.viewSource;
@@ -73,6 +74,7 @@ namespace MealMemos.iOS
         {
             this.viewSource = new TableViewSource(new List<string>(), this.DateTimeToDefaultFormat());
             this.viewSource.Identifier = this.applicationTabBar.SelectedItem.Title;
+            this.viewSource.DocumentId = DocumentId;
             this.mealTableView.Source = this.viewSource;
             this.resetTableView();
             this.mealTableView.ReloadData();
@@ -195,6 +197,7 @@ namespace MealMemos.iOS
                 {
                     this.SetMealDocumentFromDocument(current);
                     this.viewSource.DocumentId = current.Id;
+                    DocumentId = current.Id;
                 }
                 this.SetViewSourceData();
                 this.mealTableView.Source = this.viewSource;
@@ -244,12 +247,11 @@ namespace MealMemos.iOS
                 var mealContent = new List<string>();
                 if (listItemTitle.Contains(data.Key?.ToString()))
                 {
-                    if (data.Value is NSMutableArray value)
+                    if (data.Value is NSMutableDictionary dictionary)
                     {
-                        for (int i = 0; i < (int)value.Count; i++)
+                        foreach(var element in dictionary)
                         {
-                            string test = value.GetItem<NSString>((nuint)i).ToString();
-                            mealContent.Add(test);
+                            mealContent.Add(element.Value.ToString());
                         }
                         this.mealDocument.SetMeal(mealContent, data.Key?.ToString());
                     }

@@ -71,28 +71,38 @@ namespace MealMemos.iOS
         public void Save()
         {
             DocumentReference doc;
-            var mealDictionary = new NSMutableDictionary<NSString, NSObject>();
-            var dishes = new NSMutableArray();
             var user = Auth.DefaultInstance.CurrentUser;
+            NSString meal = new NSString(this.Identifier);
+            NSDictionary<NSString, NSObject> dictio;
+            var mealDictionary = new NSMutableDictionary<NSString, NSObject>();
+
+            var dishes = new NSMutableDictionary();
             for (int i = 0; i < this.Items.Count; i++)
             {
-                dishes.Add(NSObject.FromObject(this.Items[i]));
-                
+                dishes.Add(new NSString("" + (i + 1)), NSObject.FromObject(this.Items[i]));
             }
-            NSString userNS = new NSString(MealDocument.UserKey);
-            NSString dateNS = new NSString(MealDocument.DateKey);
-            NSString meal = new NSString(this.Identifier);
-            mealDictionary.SetValueForKey(new NSString(user.Uid), userNS);
-            mealDictionary.SetValueForKey(NSObject.FromObject(this.SourceDay), dateNS);
-            mealDictionary.SetValueForKey(dishes, meal);
-            NSDictionary<NSString,NSObject> dictio =
-                new NSDictionary<NSString, NSObject>(mealDictionary.Keys, mealDictionary.Values);
-            doc = this.DocumentId == string.Empty
-                ? Firestore.SharedInstance.GetCollection(collection).CreateDocument()
-                : Firestore.SharedInstance.GetCollection(collection).GetDocument(this.DocumentId);
-            if (this.DocumentId == string.Empty) this.DocumentId = doc.Id;
-            doc.SetDataAsync(dictio);
-       
+
+            if (this.DocumentId == String.Empty)
+            {
+                doc = Firestore.SharedInstance.GetCollection(collection).CreateDocument();
+                this.DocumentId = doc.Id;
+                MainViewController.DocumentId = doc.Id;
+                NSString userNS = new NSString(MealDocument.UserKey);
+                NSString dateNS = new NSString(MealDocument.DateKey);
+                mealDictionary.SetValueForKey(NSObject.FromObject(this.SourceDay), dateNS);
+                mealDictionary.SetValueForKey(NSObject.FromObject(user.Uid), userNS);
+                mealDictionary.SetValueForKey(dishes, meal);
+                dictio = new NSDictionary<NSString, NSObject>(mealDictionary.Keys, mealDictionary.Values);
+                doc.SetDataAsync(dictio);
+            }
+            else
+            {
+                doc = Firestore.SharedInstance.GetCollection(collection).GetDocument(this.DocumentId);
+                mealDictionary.SetValueForKey(dishes, meal);
+                var data = new Dictionary<object, object>();
+                data.Add(this.Identifier, dishes);
+                doc.UpdateDataAsync(data);     
+            }     
         }
     }
 }
