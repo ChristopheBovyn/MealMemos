@@ -16,22 +16,38 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
-		android:layout_margin="20dp">
+		android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp">
 		<TextView
 			android:layout_width="80dp"
 			android:layout_height="wrap_content"
 			android:text="Email :"/>
 		<EditText
 			android:layout_width="200dp"
-            android:id="@id/email_edit_text"
+			android:id="@id/email_edit_text"
 			android:layout_height="wrap_content"
 			android:hint="Enter your email here"/>
 	</LinearLayout>
+    <TextView
+		android:id="@id/email_error"
+		android:layout_width="match_parent"
+		android:layout_height="15dp"
+		android:textSize="10dp"
+		android:textColor="@android:color/holo_red_dark"
+		android:layout_marginLeft="100dp"
+		android:text="Invalid email, ex : youremail@gmail.com"
+		android:layout_marginBottom="10dp"
+		android:visibility="invisible"/>
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
-		android:layout_margin="20dp">
+		android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp">
 		<TextView
 			android:layout_width="80dp"
 			android:layout_height="wrap_content"
@@ -39,22 +55,53 @@
          />
 		<EditText
 			android:layout_width="200dp"
-            android:id="@id/password_edit_text"
+			android:id="@id/password_edit_text"
 			android:layout_height="wrap_content"
 			android:inputType="textPassword"
-			android:hint="Enter your password here"/>
+			android:hint="Enter your password here"
+        />
 	</LinearLayout>
     <TextView
-        android:id="@+id/auth_failure"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Failed to authenticate, retry !"
-        android:textAlignment="center"
-        android:textColor="@android:color/holo_red_dark"
-        android:visibility="invisible"/>
+		android:id="@id/password_error"
+		android:layout_width="match_parent"
+		android:layout_height="15dp"
+		android:textSize="10dp"
+		android:textColor="@android:color/holo_red_dark"
+		android:layout_marginLeft="100dp"
+		android:text="Password minimum size is 6"
+		android:layout_marginBottom="5dp"
+		android:visibility="invisible"/>
+	<TextView
+		android:id="@+id/auth_failure"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Failed to authenticate, retry !"
+		android:textAlignment="center"
+		android:textColor="@android:color/holo_red_dark"
+		android:visibility="invisible"/>
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@id/creating_account"
+		android:visibility="invisible">
+		<ProgressBar
+			android:id="@id/loading_progress"
+			android:layout_marginLeft="100dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+        />
+		<TextView
+			android:id="@id/creating_statement"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_toRightOf="@id/loading_progress"
+			android:text="Log in  ..."/>
+	</RelativeLayout>
 	<Button
 		android:layout_width="150dp"
-        android:id="@id/login_btn"
+		android:id="@id/login_btn"
 		android:layout_height="wrap_content"
 		android:background="?android:attr/colorPrimary"
 		android:text="Login"
@@ -63,7 +110,7 @@
 		android:layout_margin="20dp"/>
 	<Button
 		android:layout_width="150dp"
-        android:id="@id/reset_btn"
+		android:id="@id/reset_btn"
 		android:layout_height="wrap_content"
 		android:background="?android:attr/colorPrimary"
 		android:text="Reset"

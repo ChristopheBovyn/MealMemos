@@ -10,7 +10,7 @@ namespace MealMemos.Extensions
             return String.IsNullOrEmpty(value);
         }
 
-        public static bool isAValidEmail(this string email)
+        public static bool IsAValidEmail(this string email)
         {
             try
             {

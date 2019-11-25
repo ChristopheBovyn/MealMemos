@@ -25,6 +25,9 @@ namespace MealMemos.iOS
 		UIKit.NSLayoutConstraint emailTopConstraint { get; set; }
 
 		[Outlet]
+		UIKit.UIButton haveAccountBtn { get; set; }
+
+		[Outlet]
 		UIKit.UIButton loginBtn { get; set; }
 
 		[Outlet]
@@ -35,6 +38,9 @@ namespace MealMemos.iOS
 
 		[Outlet]
 		UIKit.UIScrollView scrollView { get; set; }
+
+		[Outlet]
+		UIKit.NSLayoutConstraint showConfirmConstraint { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -51,6 +57,11 @@ namespace MealMemos.iOS
 			if (emailTextView != null) {
 				emailTextView.Dispose ();
 				emailTextView = null;
+			}
+
+			if (emailTopConstraint != null) {
+				emailTopConstraint.Dispose ();
+				emailTopConstraint = null;
 			}
 
 			if (loginBtn != null) {
@@ -73,9 +84,14 @@ namespace MealMemos.iOS
 				scrollView = null;
 			}
 
-			if (emailTopConstraint != null) {
-				emailTopConstraint.Dispose ();
-				emailTopConstraint = null;
+			if (showConfirmConstraint != null) {
+				showConfirmConstraint.Dispose ();
+				showConfirmConstraint = null;
+			}
+
+			if (haveAccountBtn != null) {
+				haveAccountBtn.Dispose ();
+				haveAccountBtn = null;
 			}
 		}
 	}

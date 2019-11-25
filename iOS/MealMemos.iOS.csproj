@@ -75,7 +75,7 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <CodesignProvision>iOS Team Provisioning Profile: com.cbovyn.MealMemos</CodesignProvision>
+    <CodesignProvision>iOS Team Provisioning Profile: com.cbovyn.mealmemosIOS</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

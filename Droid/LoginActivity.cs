@@ -5,6 +5,7 @@ using Android.App;
 using Android.OS;
 using Android.Widget;
 using Firebase.Auth;
+using Android.Views;
 
 namespace MealMemos.Droid
 {
@@ -13,6 +14,10 @@ namespace MealMemos.Droid
     {
         private EditText emailEdit;
         private EditText passwordEdit;
+        private TextView emailError;
+        private TextView passwordError;
+        private Button loginBtn;
+        private Button resetBtn;
         private const string userKey = "user";
         private TextView authFailed;
 
@@ -28,14 +33,18 @@ namespace MealMemos.Droid
                 this.emailEdit.Text = CreateAccountActivity.FirebaseAuth?.CurrentUser?.Email;
             this.emailEdit.TextChanged += (sender, args) =>
             {
-                this.authFailed.Visibility = Android.Views.ViewStates.Invisible;
+                this.authFailed.Visibility = ViewStates.Invisible;
             };
             this.passwordEdit.TextChanged += (sender, args) =>
             {
-                this.authFailed.Visibility = Android.Views.ViewStates.Invisible;
+                this.authFailed.Visibility = ViewStates.Invisible;
             };
-            var loginBtn = FindViewById<Button>(Resource.Id.login_btn);
-            var resetBtn = FindViewById<Button>(Resource.Id.reset_btn);
+            this.EmailActions();
+            this.PasswordActions();
+            this.emailError = FindViewById<TextView>(Resource.Id.email_error);
+            this.passwordError = FindViewById<TextView>(Resource.Id.password_error);
+            this.loginBtn = FindViewById<Button>(Resource.Id.login_btn);
+            this.resetBtn = FindViewById<Button>(Resource.Id.reset_btn);
             loginBtn.Click += LogUser;
             resetBtn.Click += ResetForm;
         }
@@ -47,6 +56,8 @@ namespace MealMemos.Droid
 
         private async void LogUser(object sender, EventArgs e)
         {
+            var creating = FindViewById<RelativeLayout>(Resource.Id.creating_account);
+            creating.Visibility = ViewStates.Visible;
             if (this.IsValidForm())
             {
                 var email = this.emailEdit.Text;
@@ -54,25 +65,59 @@ namespace MealMemos.Droid
                 try
                 {
                     await CreateAccountActivity.FirebaseAuth.SignInWithEmailAndPasswordAsync(email, password);
+                    creating.Visibility = ViewStates.Visible;
                     StartActivity(typeof(MainActivity));
                 }
                catch(FirebaseAuthException ex)
                 {
                     Console.WriteLine(ex);
-                    this.authFailed.Visibility = Android.Views.ViewStates.Visible;
+                    this.authFailed.Visibility = ViewStates.Visible;
                 }
             }
             else
             {
-                this.authFailed.Visibility = Android.Views.ViewStates.Visible;
+                this.authFailed.Visibility = ViewStates.Visible;
             }
         }
 
         private bool IsValidForm()
         {
-            if (this.emailEdit.Text.isAValidEmail() && this.passwordEdit.Text != String.Empty)
+            if (this.emailEdit.Text.IsAValidEmail() && this.passwordEdit.Text != String.Empty)
                 return true;
             return false;
+        }
+
+        private void EmailActions()
+        {
+            this.emailEdit.AfterTextChanged += (sender, args) =>
+            {
+                if (!this.emailEdit.Text.IsAValidEmail())
+                    this.emailError.Visibility = ViewStates.Visible;
+                else
+                    this.emailError.Visibility = ViewStates.Invisible;
+                if (this.IsValidForm())
+                {
+                    this.loginBtn.Enabled = true;
+                    this.loginBtn.SetBackgroundResource(Resource.Color.colorAccentDark);
+                }
+            };
+        }
+
+        private void PasswordActions()
+        {
+            this.passwordEdit.AfterTextChanged += (sender, args) =>
+            {
+
+                if (this.passwordEdit.Text.Length < 6)
+                    this.passwordError.Visibility = ViewStates.Visible;
+                else
+                    this.passwordError.Visibility = ViewStates.Invisible;
+                if (this.IsValidForm())
+                {
+                    this.loginBtn.Enabled = true;
+                    this.loginBtn.SetBackgroundResource(Resource.Color.colorAccentDark);
+                }
+            };
         }
     }
 }

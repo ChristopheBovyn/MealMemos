@@ -11,10 +11,14 @@ using GalaSoft.MvvmLight.Ioc;
 using MealMemos.Interfaces;
 using MealMemos.Droid.Impl;
 using Plugin.CurrentActivity;
+using MealMemos.Models;
+using Android.Support.V4.Content;
+using Android.Runtime;
+using Android.Views;
 
 namespace MealMemos.Droid
 {
-    [Activity(Label = "CreateAccountActivity",MainLauncher = true,Icon = "@mipmap/icon")]
+    [Activity(Label = "MealMemos", MainLauncher = true, Icon = "@mipmap/icon")]
     public class CreateAccountActivity : Activity
     {
         private EditText emailEdit;
@@ -23,6 +27,7 @@ namespace MealMemos.Droid
         private TextView emailError;
         private TextView passwordError;
         private TextView confirmError;
+        private Button loginBtn;
         private FirebaseApp firebaseApp;
         public static FirebaseAuth FirebaseAuth;
         public static FirebaseFirestore FirestoreDb { get; private set; }
@@ -42,13 +47,13 @@ namespace MealMemos.Droid
 
         private void InitFields()
         {
-            this.emailEdit     = FindViewById<EditText>(Resource.Id.email_edit_text);
-            this.passwordEdit  = FindViewById<EditText>(Resource.Id.password_edit_text);
-            this.confirmEdit   = FindViewById<EditText>(Resource.Id.confirm_edit_text);
-            this.emailError    = FindViewById<TextView>(Resource.Id.email_error);
+            this.emailEdit = FindViewById<EditText>(Resource.Id.email_edit_text);
+            this.passwordEdit = FindViewById<EditText>(Resource.Id.password_edit_text);
+            this.confirmEdit = FindViewById<EditText>(Resource.Id.confirm_edit_text);
+            this.emailError = FindViewById<TextView>(Resource.Id.email_error);
             this.passwordError = FindViewById<TextView>(Resource.Id.password_error);
-            this.confirmError  = FindViewById<TextView>(Resource.Id.confirm_error);
-
+            this.confirmError = FindViewById<TextView>(Resource.Id.confirm_error);
+            this.loginBtn = FindViewById<Button>(Resource.Id.login_btn);
             var createAccountBtn = FindViewById<Button>(Resource.Id.login_btn);
             var resetBtn = FindViewById<Button>(Resource.Id.login_btn);
             var redirectText = FindViewById<TextView>(Resource.Id.already_have_account);
@@ -71,10 +76,15 @@ namespace MealMemos.Droid
         {
             this.emailEdit.AfterTextChanged += (sender, args) =>
             {
-                if (!this.emailEdit.Text.isAValidEmail())
-                    this.emailError.Visibility = Android.Views.ViewStates.Visible;
+                if (!this.emailEdit.Text.IsAValidEmail())
+                    this.emailError.Visibility = ViewStates.Visible;
                 else
-                    this.emailError.Visibility = Android.Views.ViewStates.Invisible;
+                    this.emailError.Visibility = ViewStates.Invisible;
+                if (this.IsValidLogin())
+                {
+                    this.loginBtn.Enabled = true;
+                    this.loginBtn.SetBackgroundResource(Resource.Color.colorAccentDark);
+                }
             };
         }
 
@@ -82,10 +92,16 @@ namespace MealMemos.Droid
         {
             this.passwordEdit.AfterTextChanged += (sender, args) =>
             {
+             
                 if (this.passwordEdit.Text.Length < 6)
-                    this.passwordError.Visibility = Android.Views.ViewStates.Visible;
+                    this.passwordError.Visibility = ViewStates.Visible;
                 else
-                    this.passwordError.Visibility = Android.Views.ViewStates.Invisible;
+                    this.passwordError.Visibility = ViewStates.Invisible;
+                if (this.IsValidLogin())
+                {
+                    this.loginBtn.Enabled = true;
+                    this.loginBtn.SetBackgroundResource(Resource.Color.colorAccentDark);
+                }
             };
         }
 
@@ -94,15 +110,21 @@ namespace MealMemos.Droid
             this.confirmEdit.AfterTextChanged += (sender, args) =>
             {
                 if (this.passwordEdit?.Text != this.confirmEdit.Text)
-                    this.confirmError.Visibility = Android.Views.ViewStates.Visible;
+                    this.confirmError.Visibility = ViewStates.Visible;
                 else
-                    this.confirmError.Visibility = Android.Views.ViewStates.Invisible;
-            };
+                    this.confirmError.Visibility = ViewStates.Invisible;
+                if (this.IsValidLogin())
+                {
+                    this.loginBtn.Enabled = true;
+                    this.loginBtn.SetBackgroundResource(Resource.Color.colorAccentDark);
+                }
+            };   
         }
-
 
         private async void CreateUser(object sender, EventArgs e)
         {
+            var creating = FindViewById<RelativeLayout>(Resource.Id.creating_account);
+            creating.Visibility = ViewStates.Visible;
             if (this.IsValidLogin())
             {
                 var email = this.emailEdit.Text;
@@ -110,11 +132,16 @@ namespace MealMemos.Droid
                 try
                 {
                     await FirebaseAuth.CreateUserWithEmailAndPasswordAsync(email, password);
+                    this.confirmError.Visibility = ViewStates.Invisible;
+                    this.emailError.Visibility = ViewStates.Invisible;
+                    this.passwordError.Visibility = ViewStates.Invisible;
+                    creating.Visibility = ViewStates.Invisible;
                     StartActivity(typeof(MainActivity));
                 }
-                catch(FirebaseAuthException ex)
+                catch (FirebaseAuthException ex)
                 {
                     Console.WriteLine(ex);
+                    creating.Visibility = ViewStates.Invisible;
                 }
             }
         }
@@ -132,13 +159,13 @@ namespace MealMemos.Droid
             this.firebaseApp = FirebaseApp.InitializeApp(this, options);
             FirestoreDb = FirebaseFirestore.GetInstance(this.firebaseApp);
             FirebaseAuth = FirebaseAuth.GetInstance(this.firebaseApp);
-            
+
         }
 
         private bool IsValidLogin()
         {
             if (
-                this.emailEdit.Text.isAValidEmail() &&
+                this.emailEdit.Text.IsAValidEmail() &&
                 this.passwordEdit.Text != System.String.Empty &&
                 this.confirmEdit.Text != System.String.Empty &&
                 this.passwordEdit.Text.Equals(this.confirmEdit.Text))
