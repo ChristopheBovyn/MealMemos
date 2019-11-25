@@ -7,6 +7,8 @@ using UIKit;
 using Newtonsoft.Json;
 using Firebase.Auth;
 using MealMemos.Extensions;
+using Masonry;
+using Foundation;
 
 namespace MealMemos.iOS
 {
@@ -62,11 +64,14 @@ namespace MealMemos.iOS
 
         private async void LoginAsync(object sender, EventArgs e)
         {
+
+            var alertController = this.CreateLoadingPopup("Log in ...");
+            this.PresentViewController(alertController,true,null);
             if (this.IsValidLogin())
             {
                 
-                var success = await this.SignInFirebaseAsync(this.emailTextView.Text, this.passTextView.Text);
-
+                var success = await this.CreateUser(this.emailTextView.Text, this.passTextView.Text);
+                this.DismissViewController(true, null);
                 if (success != null)
                 {
                     this.StoreUserInfo(success);
@@ -115,8 +120,10 @@ namespace MealMemos.iOS
             this.haveAccountBtn.SetTitle("Already have an account ? Log in", UIControlState.Normal);
         }
 
-        private async Task<User> SignInFirebaseAsync(string email, string password)
+        private async Task<User> CreateUser(string email, string password)
         {
+            var alertController = this.CreateLoadingPopup("Creating account ...");
+            this.PresentViewController(alertController, true, null);
             try
             {
                 var result = this.createAccount ?
@@ -132,7 +139,7 @@ namespace MealMemos.iOS
                 Console.WriteLine(e);
                 return null;
             }
-
+            this.DismissViewController(true, null);
             return null;
         }
 
@@ -209,6 +216,21 @@ namespace MealMemos.iOS
             this.emailTextView.Text = String.Empty;
             this.passTextView.Text = String.Empty;
             this.confirmTextView.Text = String.Empty;
+        }
+
+        private UIAlertController CreateLoadingPopup(string title)
+        {
+            var alertController = UIAlertController.Create("Creating account", "", UIAlertControllerStyle.Alert);
+            var loader = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.Gray);
+            loader.StartAnimating();
+
+            alertController.Add(loader); loader.MakeConstraints(make =>
+            {
+                make.Left.EqualTo(NSNumber.FromNFloat(30));
+                make.CenterY.EqualTo(alertController);
+            });
+
+            return alertController;
         }
     }
 }
