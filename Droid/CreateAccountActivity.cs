@@ -15,6 +15,8 @@ using MealMemos.Models;
 using Android.Support.V4.Content;
 using Android.Runtime;
 using Android.Views;
+using System.Runtime.Remoting.Messaging;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MealMemos.Droid
 {
@@ -183,6 +185,7 @@ namespace MealMemos.Droid
         private void RegisterServices()
         {
             SimpleIoc.Default.Register<IMealPopup>(() => { return new AndroidMealPopup(); });
+            SimpleIoc.Default.Register<IMealAPI>(() => { return new AndroidMealAPI(); });
         }
     }
 }

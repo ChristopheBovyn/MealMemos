@@ -223,6 +223,7 @@
     <Compile Include="DatePickerFragment.cs" />
     <Compile Include="LoginActivity.cs" />
     <Compile Include="CreateAccountActivity.cs" />
+    <Compile Include="Impl\AndroidMealAPI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
