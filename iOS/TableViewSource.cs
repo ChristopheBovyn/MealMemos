@@ -13,10 +13,11 @@ namespace MealMemos.iOS
     {
         public string Identifier = string.Empty;
         public string SourceDay;
-        private string documentId = string.Empty;
-        private const string collection = "meals";
-        List<string> Items;
-        public TableViewSource(List<string> items, string day)
+        public List<string> Items { get; set; }
+        public string DocumentId { get; set; } = String.Empty;
+        private readonly string collection = "meals";
+
+        public TableViewSource(List<string> items,string day)
         {
             this.Items = items;
             this.SourceDay = day;
@@ -74,25 +75,39 @@ namespace MealMemos.iOS
 
         public void Save()
         {
-            ////var dictionary = new Dictionary<string, object>();
-            //var user = Auth.DefaultInstance.CurrentUser;
-            //var dishes = new List<string>();
-            //for (int i = 0; i < this.Items.Count; i++)
-            //{
-            //    dishes.Add(this.Items[i]);
-            //}
-            ////dictionary.Add(MealDocument.UserKey, user.Uid);
-            ////dictionary.Add(MealDocument.DateKey, this.SourceDay);
-            ////dictionary.Add(this.Identifier, dishes);
-            //DocumentReference doc;
-            //var mealDictionary = new NSDictionary<NSString, NSObject>();
-            //mealDictionary.SetValueForKey(user, (NSString)MealDocument.UserKey);
-            //mealDictionary.SetValueForKey(NSObject.FromObject(this.SourceDay), (NSString)MealDocument.DateKey);
-            //mealDictionary.SetValueForKey(NSObject.FromObject(dishes), (NSString)this.Identifier);
-            //doc = this.documentId == string.Empty ? Firestore.SharedInstance.GetCollection(collection).CreateDocument()
-            //    : Firestore.SharedInstance.GetCollection(collection).GetDocument(this.documentId);
-            //if (this.documentId == string.Empty) this.documentId = doc.Id;
-            //doc.SetDataAsync(mealDictionary);
+            DocumentReference doc;
+            var user = Auth.DefaultInstance.CurrentUser;
+            NSString meal = new NSString(this.Identifier);
+            NSDictionary<NSString, NSObject> dictio;
+            var mealDictionary = new NSMutableDictionary<NSString, NSObject>();
+
+            var dishes = new NSMutableDictionary();
+            for (int i = 0; i < this.Items.Count; i++)
+            {
+                dishes.Add(new NSString("" + (i + 1)), NSObject.FromObject(this.Items[i]));
+            }
+
+            if (this.DocumentId == String.Empty)
+            {
+                doc = Firestore.SharedInstance.GetCollection(collection).CreateDocument();
+                this.DocumentId = doc.Id;
+                MainViewController.DocumentId = doc.Id;
+                NSString userNS = new NSString(MealDocument.UserKey);
+                NSString dateNS = new NSString(MealDocument.DateKey);
+                mealDictionary.SetValueForKey(NSObject.FromObject(this.SourceDay), dateNS);
+                mealDictionary.SetValueForKey(NSObject.FromObject(user.Uid), userNS);
+                mealDictionary.SetValueForKey(dishes, meal);
+                dictio = new NSDictionary<NSString, NSObject>(mealDictionary.Keys, mealDictionary.Values);
+                doc.SetDataAsync(dictio);
+            }
+            else
+            {
+                doc = Firestore.SharedInstance.GetCollection(collection).GetDocument(this.DocumentId);
+                mealDictionary.SetValueForKey(dishes, meal);
+                var data = new Dictionary<object, object>();
+                data.Add(this.Identifier, dishes);
+                doc.UpdateDataAsync(data);     
+            }     
         }
     }
 }

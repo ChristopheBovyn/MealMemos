@@ -7,67 +7,95 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Ioc;
 using MealMemos.Interfaces;
 using MealMemos.Extensions;
-using System.Threading.Tasks;
 using AsyncAwaitBestPractices;
 using Android.Support.V7.Widget;
-using System.Collections.Generic;
-using Xamarin.Essentials;
-using Newtonsoft.Json;
-using Firebase.Firestore;
-using Android.Gms.Tasks;
-using Java.Lang;
-using Java.Util;
-using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using MealMemos.ViewModels;
 
 namespace MealMemos.Droid
 {
     public class MealFragment : Android.Support.V4.App.Fragment
     {
-        private const string PageTitle = "page_title";
-        private List<string> dishes = new List<string>();
+        private const string PageTitleArgKey = "page_title";
+
+        private MealViewModel mealViewModel;
+
         private TextView MealTitle;
         private RecyclerView RecyclerView;
-        private string pageTitle;
-
         private MealAdapter MealAdapter;
+        private FloatingActionButton addButton;
 
-        public static MealFragment NewInstance(string pageTitle)
+        protected string Identifier { get; private set; }
+
+        public static MealFragment NewInstance(string pageTitle, MealViewModel mealViewModel)
         {
             MealFragment mealFragment = new MealFragment();
             Bundle args = new Bundle();
-            args.PutString(PageTitle, pageTitle);
+            mealFragment.mealViewModel = mealViewModel;
+            args.PutString(PageTitleArgKey, pageTitle);
             mealFragment.Arguments = args;
             return mealFragment;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            this.pageTitle = Arguments.GetString(PageTitle, "");
+            this.Identifier = Arguments.GetString(PageTitleArgKey, "");
             View view = inflater.Inflate(Resource.Layout.meal, container, false);
+
             this.RecyclerView = view.FindViewById<RecyclerView>(Resource.Id.meal_details);
             this.RecyclerView.SetLayoutManager(new LinearLayoutManager(Application.Context));
-            this.MealAdapter = new MealAdapter(this.dishes,this.pageTitle);
+            this.MealAdapter = new MealAdapter(this.Identifier, this.mealViewModel.GetMealByName(this.Identifier));
             this.RecyclerView.SetAdapter(MealAdapter);
-
             this.MealTitle = (TextView)view.FindViewById(Resource.Id.meal_title);
-            this.MealTitle.Text = this.pageTitle;
+            this.MealTitle.Text = this.Identifier;
 
-            var addButton = view.FindViewById<FloatingActionButton>(Resource.Id.add_aliment_dish);
-            addButton.Click += this.AddButtonClick;
+            this.mealViewModel.OnMealDocumentChanged += this.OnMealDocumentChanged;
+            this.addButton = view.FindViewById<FloatingActionButton>(Resource.Id.add_aliment_dish);
+            this.addButton.Click += this.AddButtonClick;
+            this.MealAdapter.OnDishRemoved += OnDishRemoved;
             return view;
+        }
+
+        private void OnMealDocumentChanged()
+        {
+            this.MealAdapter?.SetData(this.mealViewModel.GetMealByName(this.Identifier));
+        }
+
+        private void OnDishRemoved(int position)
+        {
+            this.mealViewModel.RemoveDishAt(position, this.Identifier);
+            this.mealViewModel.SaveDishes(this.Identifier);
+        }
+
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+            if(this.addButton != null)
+            {
+                this.addButton.Click -= this.AddButtonClick;
+            }
+            if(this.mealViewModel != null)
+            {
+                this.mealViewModel.OnMealDocumentChanged -= this.OnMealDocumentChanged;
+            }
+            if(this.MealAdapter != null)
+            {
+                this.MealAdapter.OnDishRemoved -= this.OnDishRemoved;
+            }
         }
 
         private void AddButtonClick(object sender, EventArgs e)
         {
-            this.OpenPopup().SafeFireAndForget();
+           this.OpenPopup().SafeFireAndForget();
         }
 
-        private async System.Threading.Tasks.Task OpenPopup()
+        private async Task OpenPopup()
         {
             var result = await SimpleIoc.Default.GetInstance<IMealPopup>().OpenPopupWithResult();
             if (!result.IsNullOrEmpty())
             {
-                this.MealAdapter.AddDish(result);
+                this.mealViewModel.AddDish(result, this.Identifier);
+                this.mealViewModel.SaveDishes(this.Identifier);
             }
             else
             {

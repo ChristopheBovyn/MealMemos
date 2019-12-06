@@ -29,8 +29,8 @@
 		android:theme="@style/Theme.AppCompat"
 		android:layout_alignParentBottom="true"
 		android:layout_alignParentRight="true"
-		android:layout_marginRight="30dp"
-		android:layout_marginBottom="65dp"
-		android:backgroundTint="@color/colorAccentDark"
+		android:layout_marginRight="15dp"
+		android:layout_marginBottom="15dp"
+		android:backgroundTint="?android:attr/colorError"
 		android:src="@drawable/ic_plus_black_18dp"/>
 </RelativeLayout>

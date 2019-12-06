@@ -201,6 +201,15 @@
     <Reference Include="Xamarin.Google.Guava">
       <HintPath>..\packages\Xamarin.Google.Guava.27.1.0\lib\monoandroid50\Xamarin.Google.Guava.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Base">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Base.60.1142.1\lib\MonoAndroid80\Xamarin.GooglePlayServices.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Firebase.Auth">
+      <HintPath>..\packages\Xamarin.Firebase.Auth.60.1142.1\lib\MonoAndroid80\Xamarin.Firebase.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.CurrentActivity">
+      <HintPath>..\packages\Plugin.CurrentActivity.2.1.0.4\lib\monoandroid44\Plugin.CurrentActivity.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -212,6 +221,9 @@
     <Compile Include="MealAdapter.cs" />
     <Compile Include="Utils\FirebaseUtils.cs" />
     <Compile Include="DatePickerFragment.cs" />
+    <Compile Include="LoginActivity.cs" />
+    <Compile Include="CreateAccountActivity.cs" />
+    <Compile Include="Impl\AndroidMealAPI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -300,6 +312,14 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\create_account.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\login.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MealMemos.csproj">
@@ -357,4 +377,6 @@
   <Import Project="..\packages\Xamarin.Firebase.Common.60.1142.1\build\MonoAndroid80\Xamarin.Firebase.Common.targets" Condition="Exists('..\packages\Xamarin.Firebase.Common.60.1142.1\build\MonoAndroid80\Xamarin.Firebase.Common.targets')" />
   <Import Project="..\packages\Xamarin.Firebase.Firestore.60.1142.1\build\MonoAndroid80\Xamarin.Firebase.Firestore.targets" Condition="Exists('..\packages\Xamarin.Firebase.Firestore.60.1142.1\build\MonoAndroid80\Xamarin.Firebase.Firestore.targets')" />
   <Import Project="..\packages\Xamarin.Google.Guava.FailureAccess.1.0.1.1\build\monoandroid50\Xamarin.Google.Guava.FailureAccess.targets" Condition="Exists('..\packages\Xamarin.Google.Guava.FailureAccess.1.0.1.1\build\monoandroid50\Xamarin.Google.Guava.FailureAccess.targets')" />
+  <Import Project="..\packages\Xamarin.GooglePlayServices.Base.60.1142.1\build\MonoAndroid80\Xamarin.GooglePlayServices.Base.targets" Condition="Exists('..\packages\Xamarin.GooglePlayServices.Base.60.1142.1\build\MonoAndroid80\Xamarin.GooglePlayServices.Base.targets')" />
+  <Import Project="..\packages\Xamarin.Firebase.Auth.60.1142.1\build\MonoAndroid80\Xamarin.Firebase.Auth.targets" Condition="Exists('..\packages\Xamarin.Firebase.Auth.60.1142.1\build\MonoAndroid80\Xamarin.Firebase.Auth.targets')" />
 </Project>

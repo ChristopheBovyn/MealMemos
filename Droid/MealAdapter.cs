@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using Android.Gms.Tasks;
 using Android.Support.V7.Widget;
 using Android.Views;
-using Firebase.Firestore;
-using Java.Util;
 
 namespace MealMemos.Droid
 {
-    public class MealAdapter : RecyclerView.Adapter,IOnSuccessListener
+    public class MealAdapter : RecyclerView.Adapter
     {
-        public List<string> dishes = new List<string>();
-        public string Identifier = String.Empty;
-        private string dateString = MainActivity.mealDay.Date.ToString("yyyy-MM-dd");
-        public MealAdapter(List<string> dishes, string identifier)
+        public string Identifier;
+        private List<string> dishes;
+        public Action<int> OnDishRemoved { get; set; }
+
+        public MealAdapter(string identifier, List<string> dishes)
         {
-            this.dishes = dishes;
-            this.LoadDishes();
             this.Identifier = identifier;
+            this.dishes = dishes;
         }
 
         public override int ItemCount => this.dishes.Count;
@@ -35,61 +32,20 @@ namespace MealMemos.Droid
             return viewHolder;
         }
 
+        // On click on trash
         private void OnDishClick(int position)
         {
-            this.dishes.Remove(this.dishes[position]);
+            //this.dishes.RemoveAt(position);
+            this.OnDishRemoved?.Invoke(position);
             this.NotifyDataSetChanged();
-            this.Save();
         }
 
-        public void AddDish(string dish)
+        public void SetData(List<string> list)
         {
-            this.dishes.Add(dish);
-            this.NotifyDataSetChanged();
-            this.Save();
-        }
-
-        private void Save()
-        {
-            HashMap map = new HashMap();
-            for (int i = 0; i < this.dishes.Count; i++)
+            if(list != null)
             {
-                map.Put("dish" + (i + 1), this.dishes[i]);
-            }
-            FirebaseFirestore db = FirebaseFirestore.GetInstance(MainActivity.firebaseApp);
-            DocumentReference document = db.Collection("meals").Document("defaultUser").Collection(this.dateString).Document(this.Identifier);
-            document.Set(map);
-        }
-
-
-        private void LoadDishes()
-        {
-            FirebaseFirestore db = FirebaseFirestore.GetInstance(MainActivity.firebaseApp);
-            db.Collection("meals").Document("defaultUser").Collection(this.dateString).Get().AddOnSuccessListener(this);
-        }
-
-        public void OnSuccess(Java.Lang.Object result)
-        {
-            var snapshot = (QuerySnapshot)result;
-            if (!snapshot.IsEmpty)
-            {
-                var documents = snapshot.Documents;
-                foreach (DocumentSnapshot document in documents)
-                {
-                    if (document.Id == this.Identifier)
-                    {
-                        foreach (string dish in document.Data.Values)
-                        {
-                            this.dishes.Add(dish);
-                        }
-                        this.NotifyDataSetChanged();
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                
+                this.dishes = list;
+                this.NotifyDataSetChanged();
             }
         }
     }

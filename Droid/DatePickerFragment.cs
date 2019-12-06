@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Android.App;
 using Android.OS;
 using Android.Widget;
@@ -10,19 +11,21 @@ namespace MealMemos.Droid
         // TAG can be any string of your choice.
         public static readonly string TAG = "X:" + typeof(DatePickerFragment).Name.ToUpper();
 
+        private DateTime dateTime;
         // Initialize this value to prevent NullReferenceExceptions.
         Action<DateTime> _dateSelectedHandler = delegate { };
 
-        public static DatePickerFragment NewInstance(Action<DateTime> onDateSelected)
+        public static DatePickerFragment NewInstance(Action<DateTime> onDateSelected, DateTime dateTime)
         {
             DatePickerFragment frag = new DatePickerFragment();
             frag._dateSelectedHandler = onDateSelected;
+            frag.dateTime = dateTime;
             return frag;
         }
 
         public override Dialog OnCreateDialog(Bundle savedInstanceState)
         {
-            DateTime currently = MainActivity.mealDay;
+            DateTime currently = this.dateTime;
             DatePickerDialog dialog = new DatePickerDialog(Activity,
                                                            this,
                                                            currently.Year,
