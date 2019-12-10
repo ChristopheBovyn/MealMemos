@@ -29,13 +29,9 @@
   <ItemGroup>
     <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Member.cs" />
-    <Compile Include="Models\Color.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Interfaces\IMealPopup.cs" />
-    <Compile Include="Models\MealItem.cs" />
     <Compile Include="Models\MealDocument.cs" />
-    <Compile Include="Models\Food.cs" />
     <Compile Include="ViewModels\MealViewModel.cs" />
     <Compile Include="Interfaces\IMealAPI.cs" />
   </ItemGroup>

@@ -9,10 +9,7 @@ namespace MealMemos.Models
         public List<string> Souper{ get; set; } = new List<string>();
         public List<string> Collation{ get; set; } = new List<string>();
         public string DocumentId { get; set; } = string.Empty;
-        public static string UserKey = "user";
-        public static string DateKey = "date";
-        
-
+ 
         public void SetMeal(List<string> mealContent, string mealTitle)
         {
             switch (mealTitle)
